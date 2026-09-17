@@ -1,0 +1,4585 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>deep-shade — Photography, Compositions & Darkroom</title>
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --black: #090909;
+      --ink: #111111;
+      --grey: #707070;
+      --light: #f3f3f1;
+      --line: #d8d8d5;
+
+      --serif:
+        "Iowan Old Style",
+        "Baskerville",
+        "Times New Roman",
+        serif;
+
+      --sans:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--black);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .site-header {
+      height: 86px;
+      padding: 0 28px;
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+
+      background: rgba(255, 255, 255, 0.96);
+
+      border-bottom: 1px solid var(--line);
+
+      position: sticky;
+      top: 0;
+
+      z-index: 100;
+
+      backdrop-filter: blur(16px);
+    }
+
+    .logo {
+      color: var(--black);
+      text-decoration: none;
+      text-transform: lowercase;
+
+      font-size: 22px;
+      font-weight: 700;
+
+      letter-spacing: -0.055em;
+    }
+
+    .logo em {
+      font-family: var(--serif);
+      font-weight: 400;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .main-nav a,
+    .header-right a {
+      color: var(--black);
+      text-decoration: none;
+
+      font-size: 11px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    .main-nav a:hover,
+    .header-right a:hover {
+      opacity: 0.48;
+    }
+
+    .header-right {
+      justify-self: end;
+
+      display: flex;
+      gap: 18px;
+
+      align-items: center;
+    }
+
+    .editor-link {
+      border: 1px solid var(--black);
+      border-radius: 999px;
+
+      padding: 10px 15px;
+    }
+
+    .menu-btn {
+      display: none;
+
+      border: 0;
+      background: transparent;
+
+      padding: 0;
+
+      cursor: pointer;
+
+      font-size: 12px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    /* =========================
+       MOBILE NAV
+    ========================= */
+
+    .mobile-nav {
+      display: none;
+
+      position: fixed;
+
+      top: 76px;
+      left: 0;
+      right: 0;
+
+      z-index: 99;
+
+      background: white;
+
+      border-bottom: 1px solid var(--line);
+
+      padding: 22px 20px;
+    }
+
+    .mobile-nav.open {
+      display: grid;
+      gap: 18px;
+    }
+
+    .mobile-nav a {
+      color: #000;
+
+      text-decoration: none;
+
+      font-family: var(--serif);
+
+      font-size: 38px;
+
+      letter-spacing: -0.04em;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: calc(100vh - 86px);
+
+      display: grid;
+
+      grid-template-columns:
+        1.15fr
+        0.85fr;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-copy {
+      min-height: 760px;
+
+      padding:
+        46px
+        28px
+        32px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: space-between;
+    }
+
+    .hero-kicker {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.15em;
+    }
+
+    .hero-title {
+      margin: 40px 0;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        86px,
+        10.8vw,
+        188px
+      );
+
+      font-weight: 400;
+
+      letter-spacing: -0.078em;
+
+      line-height: 0.72;
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-title .offset {
+      padding-left: 10vw;
+    }
+
+    .hero-bottom {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 26px;
+
+      align-items: end;
+    }
+
+    .hero-intro {
+      max-width: 500px;
+
+      font-size: 20px;
+
+      line-height: 1.25;
+
+      letter-spacing: -0.02em;
+    }
+
+    .hero-index {
+      text-align: right;
+
+      color: var(--grey);
+
+      font-size: 11px;
+
+      line-height: 1.5;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    .hero-image {
+      min-height: 760px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      margin: 0;
+
+      background: #dddddd;
+    }
+
+    .hero-image img {
+      filter: grayscale(100%);
+
+      transition:
+        transform 1.2s ease,
+        filter 0.7s ease;
+    }
+
+    .hero-image:hover img {
+      transform: scale(1.025);
+    }
+
+    .hero-label {
+      position: absolute;
+
+      left: 16px;
+
+      bottom: 16px;
+
+      padding:
+        8px
+        10px;
+
+      background: #ffffff;
+
+      color: #000000;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       STATEMENT
+    ========================= */
+
+    .statement {
+      padding:
+        120px
+        28px
+        110px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        3fr;
+
+      gap: 50px;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--grey);
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.15em;
+    }
+
+    .statement h2 {
+      max-width: 1250px;
+
+      margin: 0;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        44px,
+        6.3vw,
+        105px
+      );
+
+      font-weight: 400;
+
+      line-height: 0.93;
+
+      letter-spacing: -0.055em;
+    }
+
+    /* =========================
+       STANDARD SECTION
+    ========================= */
+
+    .section {
+      padding:
+        100px
+        28px;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        2fr
+        1fr;
+
+      gap: 20px;
+
+      align-items: end;
+
+      margin-bottom: 68px;
+    }
+
+    .section-head h2 {
+      grid-column: 2;
+
+      margin: 0;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        52px,
+        7vw,
+        112px
+      );
+
+      font-weight: 400;
+
+      line-height: 0.82;
+
+      letter-spacing: -0.065em;
+    }
+
+    .section-head p {
+      max-width: 380px;
+
+      margin: 0;
+
+      justify-self: end;
+
+      color: var(--grey);
+
+      font-size: 13px;
+
+      line-height: 1.45;
+    }
+
+    /* =========================
+       COMPOSITIONS
+    ========================= */
+
+    .composition-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(12, 1fr);
+
+      gap: 14px;
+
+      align-items: start;
+    }
+
+    .comp {
+      position: relative;
+
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .comp img {
+      filter: grayscale(100%);
+    }
+
+    .comp figcaption {
+      margin-top: 8px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    .comp-a {
+      grid-column: 1 / 6;
+
+      margin-top: 90px;
+    }
+
+    .comp-a .photo {
+      aspect-ratio: 5 / 7;
+    }
+
+    .comp-b {
+      grid-column: 7 / 13;
+    }
+
+    .comp-b .photo {
+      aspect-ratio: 3 / 2;
+    }
+
+    .comp-c {
+      grid-column: 7 / 11;
+
+      margin-top: 90px;
+    }
+
+    .comp-c .photo {
+      aspect-ratio: 4 / 5;
+    }
+
+    .comp-d {
+      grid-column: 2 / 7;
+
+      margin-top: -40px;
+    }
+
+    .comp-d .photo {
+      aspect-ratio: 4 / 3;
+    }
+
+    /* =========================
+       QUOTE
+    ========================= */
+
+    .quote-band {
+      padding:
+        105px
+        28px;
+
+      background: var(--black);
+
+      color: var(--white);
+    }
+
+    .quote-band blockquote {
+      max-width: 1300px;
+
+      margin: 0 auto;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        48px,
+        7.2vw,
+        120px
+      );
+
+      line-height: 0.9;
+
+      letter-spacing: -0.055em;
+
+      text-align: center;
+    }
+
+    .quote-band .small {
+      margin-top: 35px;
+
+      color: #999999;
+
+      text-align: center;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.15em;
+    }
+
+    /* =========================
+       GALLERY
+    ========================= */
+
+    .gallery {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 8px;
+    }
+
+    .gallery-item {
+      margin: 0;
+
+      position: relative;
+
+      overflow: hidden;
+
+      background: #eeeeee;
+    }
+
+    .gallery-item img {
+      filter: grayscale(100%);
+
+      transition:
+        transform 0.7s ease,
+        filter 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.025);
+
+      filter: grayscale(0%);
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-column: span 2;
+
+      aspect-ratio: 16 / 10;
+    }
+
+    .gallery-item:nth-child(2),
+    .gallery-item:nth-child(3),
+    .gallery-item:nth-child(4),
+    .gallery-item:nth-child(6) {
+      aspect-ratio: 3 / 4;
+    }
+
+    .gallery-item:nth-child(5) {
+      grid-column: span 2;
+
+      aspect-ratio: 16 / 9;
+    }
+
+    .gallery-item:nth-child(7),
+    .gallery-item:nth-child(8) {
+      grid-column: span 2;
+
+      aspect-ratio: 16 / 10;
+    }
+
+    .gallery-num {
+      position: absolute;
+
+      left: 10px;
+
+      bottom: 10px;
+
+      padding:
+        6px
+        8px;
+
+      background: #ffffff;
+
+      color: #000000;
+
+      font-size: 9px;
+
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       DARKROOM
+    ========================= */
+
+    .darkroom {
+      padding:
+        100px
+        28px
+        110px;
+
+      background: var(--black);
+
+      color: var(--white);
+    }
+
+    .darkroom .section-head {
+      margin-bottom: 46px;
+    }
+
+    .darkroom .section-head h2 {
+      color: #ffffff;
+    }
+
+    .darkroom .section-head p {
+      color: #888888;
+    }
+
+    .editor-shell {
+      background: #111111;
+
+      border:
+        1px solid #3a3a3a;
+    }
+
+    .editor-top {
+      min-height: 54px;
+
+      padding:
+        0
+        16px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+      align-items: center;
+
+      border-bottom:
+        1px solid #383838;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    .editor-top .center {
+      font-family: var(--serif);
+
+      font-size: 16px;
+
+      text-transform: none;
+
+      letter-spacing: -0.02em;
+    }
+
+    .editor-top .right {
+      justify-self: end;
+
+      display: flex;
+
+      gap: 14px;
+    }
+
+    .tool-btn {
+      padding: 0;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #ffffff;
+
+      cursor: pointer;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    .tool-btn:hover {
+      opacity: 0.55;
+    }
+
+    .tool-btn:disabled {
+      opacity: 0.22;
+    }
+
+    .editor-main {
+      min-height: 610px;
+
+      padding: 24px;
+
+      display: grid;
+
+      place-items: center;
+
+      position: relative;
+
+      overflow: hidden;
+
+      background: #171717;
+    }
+
+    .editor-empty {
+      width: min(780px, 90%);
+
+      height: min(470px, 58vw);
+
+      min-height: 330px;
+
+      display: grid;
+
+      place-items: center;
+
+      text-align: center;
+
+      color: #aaaaaa;
+
+      border:
+        1px dashed #585858;
+
+      cursor: pointer;
+    }
+
+    .editor-empty strong {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: #ffffff;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        40px,
+        5vw,
+        74px
+      );
+
+      font-weight: 400;
+
+      letter-spacing: -0.04em;
+    }
+
+    .editor-empty span {
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.14em;
+    }
+
+    #editorCanvas {
+      display: none;
+
+      max-width: 100%;
+
+      max-height: 570px;
+
+      box-shadow:
+        0
+        20px
+        50px
+        rgba(0, 0, 0, 0.4);
+    }
+
+    .drag-label {
+      display: none;
+
+      position: absolute;
+
+      inset: 18px;
+
+      background:
+        rgba(10, 10, 10, 0.92);
+
+      border:
+        1px dashed #777777;
+
+      place-items: center;
+
+      font-family: var(--serif);
+
+      font-size: 55px;
+
+      letter-spacing: -0.04em;
+
+      z-index: 8;
+    }
+
+    .editor-main.dragging .drag-label {
+      display: grid;
+    }
+
+    .editor-controls {
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, 1fr)
+        1.25fr;
+
+      border-top:
+        1px solid #383838;
+    }
+
+    .control {
+      padding:
+        18px
+        14px;
+
+      border-right:
+        1px solid #383838;
+    }
+
+    .control:last-child {
+      border-right: 0;
+    }
+
+    .control label {
+      margin-bottom: 18px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 8px;
+
+      color: #aaaaaa;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    .control label span:last-child {
+      color: #ffffff;
+    }
+
+    input[type="range"] {
+      width: 100%;
+
+      height: 18px;
+
+      appearance: none;
+
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 1px;
+
+      background: #555555;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      width: 11px;
+
+      height: 11px;
+
+      margin-top: -5px;
+
+      appearance: none;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+    }
+
+    .preset-control {
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .bw-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 8px;
+
+      align-items: center;
+
+      color: #aaaaaa;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.1em;
+    }
+
+    .switch {
+      width: 37px;
+
+      height: 20px;
+
+      position: relative;
+
+      border:
+        1px solid #555555;
+
+      border-radius: 999px;
+
+      cursor: pointer;
+    }
+
+    .switch::after {
+      content: "";
+
+      width: 12px;
+
+      height: 12px;
+
+      position: absolute;
+
+      top: 3px;
+
+      left: 3px;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+
+      transition:
+        transform 0.2s ease;
+    }
+
+    .switch.on {
+      background: white;
+    }
+
+    .switch.on::after {
+      transform:
+        translateX(17px);
+
+      background: black;
+    }
+
+    .preset-row {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 5px;
+    }
+
+    .preset {
+      padding:
+        7px
+        4px;
+
+      border:
+        1px solid #414141;
+
+      background: transparent;
+
+      color: #aaaaaa;
+
+      cursor: pointer;
+
+      font-size: 8px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+    }
+
+    .preset:hover,
+    .preset.active {
+      background: #ffffff;
+
+      color: #000000;
+
+      border-color: #ffffff;
+    }
+
+    /* =========================
+       JOURNAL
+    ========================= */
+
+    .journal {
+      display: grid;
+
+      grid-template-columns:
+        1.3fr
+        0.7fr;
+
+      border-top:
+        1px solid var(--line);
+    }
+
+    .feature-post {
+      padding:
+        0
+        30px
+        0
+        0;
+
+      border-right:
+        1px solid var(--line);
+    }
+
+    .feature-image {
+      aspect-ratio:
+        16 / 10;
+
+      overflow: hidden;
+    }
+
+    .feature-image img {
+      filter:
+        grayscale(100%);
+    }
+
+    .post-meta {
+      margin-top: 18px;
+
+      color: var(--grey);
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    .feature-post h3 {
+      margin:
+        12px
+        0
+        0;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        45px,
+        5vw,
+        76px
+      );
+
+      font-weight: 400;
+
+      line-height: 0.92;
+
+      letter-spacing: -0.045em;
+    }
+
+    .post-list {
+      padding-left: 30px;
+    }
+
+    .post-small {
+      padding:
+        0
+        0
+        22px;
+
+      margin-bottom: 22px;
+
+      display: grid;
+
+      grid-template-columns:
+        140px
+        1fr;
+
+      gap: 18px;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+    .post-small .thumb {
+      aspect-ratio:
+        1 / 1;
+
+      overflow: hidden;
+    }
+
+    .post-small img {
+      filter:
+        grayscale(100%);
+    }
+
+    .post-small h4 {
+      margin:
+        8px
+        0
+        0;
+
+      font-family: var(--serif);
+
+      font-size: 25px;
+
+      font-weight: 400;
+
+      line-height: 1;
+
+      letter-spacing: -0.03em;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about {
+      padding:
+        110px
+        28px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        2fr;
+
+      gap: 50px;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+    .about-copy {
+      font-family: var(--serif);
+
+      font-size: clamp(
+        42px,
+        5.7vw,
+        90px
+      );
+
+      line-height: 0.94;
+
+      letter-spacing: -0.045em;
+    }
+
+    .about-copy p {
+      margin: 0;
+    }
+
+    .about-small {
+      max-width: 520px;
+
+      margin-top: 55px;
+
+      color: var(--grey);
+
+      font-family: var(--sans);
+
+      font-size: 13px;
+
+      line-height: 1.55;
+
+      letter-spacing: 0;
+    }
+
+    /* =========================
+       NEWSLETTER
+    ========================= */
+
+    .newsletter {
+      padding:
+        90px
+        28px
+        100px;
+
+      background:
+        var(--black);
+
+      color: #ffffff;
+    }
+
+    .newsletter-inner {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        2fr;
+
+      gap: 50px;
+    }
+
+    .newsletter h2 {
+      margin: 0;
+
+      font-family: var(--serif);
+
+      font-size: clamp(
+        55px,
+        8vw,
+        128px
+      );
+
+      font-weight: 400;
+
+      line-height: 0.83;
+
+      letter-spacing: -0.065em;
+    }
+
+    .subscribe {
+      margin-top: 45px;
+
+      padding-bottom: 10px;
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        auto;
+
+      border-bottom:
+        1px solid #777777;
+    }
+
+    .subscribe input {
+      min-width: 0;
+
+      border: 0;
+
+      outline: 0;
+
+      background: transparent;
+
+      color: #ffffff;
+
+      font-family: var(--serif);
+
+      font-size: 28px;
+    }
+
+    .subscribe input::placeholder {
+      color: #777777;
+    }
+
+    .subscribe button {
+      border: 0;
+
+      background: transparent;
+
+      color: #ffffff;
+
+      cursor: pointer;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding:
+        26px
+        28px
+        34px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 20px;
+
+      background: var(--black);
+
+      color: #8d8d8d;
+
+      border-top:
+        1px solid #303030;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.12em;
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 980px) {
+
+      .site-header {
+        height: 76px;
+
+        padding:
+          0
+          18px;
+
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+      .main-nav,
+      .header-right {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+
+        justify-self: end;
+      }
+
+      .hero {
+        grid-template-columns:
+          1fr;
+      }
+
+      .hero-copy {
+        min-height: 650px;
+
+        padding:
+          36px
+          18px
+          28px;
+      }
+
+      .hero-image {
+        min-height: 65vh;
+      }
+
+      .statement {
+        padding:
+          80px
+          18px;
+
+        grid-template-columns:
+          1fr;
+
+        gap: 28px;
+      }
+
+      .section {
+        padding:
+          78px
+          18px;
+      }
+
+      .section-head {
+        grid-template-columns:
+          1fr;
+
+        gap: 25px;
+
+        margin-bottom: 44px;
+      }
+
+      .section-head h2 {
+        grid-column: auto;
+      }
+
+      .section-head p {
+        justify-self: start;
+      }
+
+      .composition-grid {
+        gap: 10px;
+      }
+
+      .gallery {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .gallery-item:nth-child(n) {
+        grid-column: span 1;
+      }
+
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(5),
+      .gallery-item:nth-child(7),
+      .gallery-item:nth-child(8) {
+        grid-column: span 2;
+      }
+
+      .darkroom {
+        padding:
+          78px
+          18px;
+      }
+
+      .editor-controls {
+        grid-template-columns:
+          1fr;
+      }
+
+      .control {
+        border-right: 0;
+
+        border-bottom:
+          1px solid #383838;
+      }
+
+      .journal {
+        grid-template-columns:
+          1fr;
+      }
+
+      .feature-post {
+        padding-bottom:
+          38px;
+
+        padding-right:
+          0;
+
+        border-right:
+          0;
+
+        border-bottom:
+          1px solid var(--line);
+      }
+
+      .post-list {
+        padding:
+          38px
+          0
+          0;
+      }
+
+      .about {
+        padding:
+          80px
+          18px;
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .newsletter {
+        padding:
+          78px
+          18px;
+      }
+
+      .newsletter-inner {
+        grid-template-columns:
+          1fr;
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 640px) {
+
+      .hero-title {
+        margin:
+          30px
+          0;
+
+        font-size: 24vw;
+      }
+
+      .hero-title .offset {
+        padding-left:
+          6vw;
+      }
+
+      .hero-bottom {
+        grid-template-columns:
+          1fr;
+
+        gap: 18px;
+      }
+
+      .hero-index {
+        text-align: left;
+      }
+
+      .hero-intro {
+        font-size: 17px;
+      }
+
+      .composition-grid {
+        display: block;
+      }
+
+      .comp {
+        margin:
+          0
+          0
+          46px;
+      }
+
+      .gallery {
+        display: block;
+      }
+
+      .gallery-item {
+        margin-bottom: 8px;
+
+        aspect-ratio:
+          4 / 5 !important;
+      }
+
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(5),
+      .gallery-item:nth-child(7),
+      .gallery-item:nth-child(8) {
+        aspect-ratio:
+          4 / 3 !important;
+      }
+
+      .editor-main {
+        min-height: 470px;
+
+        padding: 12px;
+      }
+
+      .editor-empty {
+        height: 330px;
+      }
+
+      .editor-top {
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+      .editor-top .center {
+        display: none;
+      }
+
+      .post-small {
+        grid-template-columns:
+          105px
+          1fr;
+      }
+
+      .newsletter h2 {
+        font-size: 17vw;
+      }
+
+      footer {
+        display: block;
+
+        line-height: 2;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================================
+       HEADER
+  ======================================= -->
+
+  <header class="site-header">
+
+    <a class="logo" href="#home">
+      deep<em>-shade</em>
+    </a>
+
+    <nav class="main-nav">
+
+      <a href="#compositions">
+        Compositions
+      </a>
+
+      <a href="#gallery">
+        Gallery
+      </a>
+
+      <a href="#darkroom">
+        Darkroom
+      </a>
+
+      <a href="#journal">
+        Journal
+      </a>
+
+      <a href="#about">
+        About
+      </a>
+
+    </nav>
+
+
+    <div class="header-right">
+
+      <a href="#journal">
+        Notes
+      </a>
+
+      <a
+        class="editor-link"
+        href="#darkroom"
+      >
+        Open editor ↘
+      </a>
+
+    </div>
+
+
+    <button
+      class="menu-btn"
+      id="menuBtn"
+    >
+      Menu
+    </button>
+
+  </header>
+
+
+  <!-- MOBILE MENU -->
+
+  <div
+    class="mobile-nav"
+    id="mobileNav"
+  >
+
+    <a href="#compositions">
+      Compositions
+    </a>
+
+    <a href="#gallery">
+      Gallery
+    </a>
+
+    <a href="#darkroom">
+      Darkroom
+    </a>
+
+    <a href="#journal">
+      Journal
+    </a>
+
+    <a href="#about">
+      About
+    </a>
+
+  </div>
+
+
+  <main>
+
+
+    <!-- ======================================
+         HERO
+    ======================================= -->
+
+    <section
+      class="hero"
+      id="home"
+    >
+
+      <div class="hero-copy">
+
+        <div class="hero-kicker">
+
+          <span>
+            Independent photography platform
+          </span>
+
+          <span>
+            Berlin / 2026
+          </span>
+
+        </div>
+
+
+        <h1 class="hero-title">
+
+          <span>
+            deep
+          </span>
+
+          <span class="offset">
+            shade
+          </span>
+
+        </h1>
+
+
+        <div class="hero-bottom">
+
+          <div class="hero-intro">
+
+            Photography, composition and a browser darkroom
+            built around contrast, texture and the space
+            between light and shadow.
+
+          </div>
+
+
+          <div class="hero-index">
+
+            Collections / 01—04
+            <br>
+
+            Journal / ongoing
+            <br>
+
+            Darkroom / browser based
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <figure class="hero-image">
+
+        <img
+          src="https://picsum.photos/seed/deepshade-hero/1200/1600"
+          alt="Editorial black and white photography"
+        >
+
+        <figcaption class="hero-label">
+
+          Study 01 — Untitled
+
+        </figcaption>
+
+      </figure>
+
+    </section>
+
+
+    <!-- ======================================
+         STATEMENT
+    ======================================= -->
+
+    <section class="statement">
+
+      <div class="eyebrow">
+
+        Manifesto / 001
+
+      </div>
+
+
+      <h2>
+
+        Images do not need to shout.
+        Sometimes the most important
+        part of a photograph is what
+        disappears into shadow.
+
+      </h2>
+
+    </section>
+
+
+    <!-- ======================================
+         COMPOSITIONS
+    ======================================= -->
+
+    <section
+      class="section"
+      id="compositions"
+    >
+
+      <header class="section-head">
+
+        <div class="eyebrow">
+
+          Selected compositions
+
+        </div>
+
+
+        <h2>
+
+          Different ways
+          to hold a frame.
+
+        </h2>
+
+
+        <p>
+
+          Editorial arrangements for portrait,
+          street, architecture and still life.
+
+          Each composition is built around
+          balance, negative space and deliberate
+          interruption.
+
+        </p>
+
+      </header>
+
+
+      <div class="composition-grid">
+
+
+        <figure class="comp comp-a">
+
+          <div class="photo">
+
+            <img
+              src="https://picsum.photos/seed/deepshade-comp-a/1100/1500"
+              alt="Portrait composition"
+            >
+
+          </div>
+
+
+          <figcaption>
+
+            <span>
+              01 / Portrait
+            </span>
+
+            <span>
+              Vertical tension
+            </span>
+
+          </figcaption>
+
+        </figure>
+
+
+        <figure class="comp comp-b">
+
+          <div class="photo">
+
+            <img
+              src="https://picsum.photos/seed/deepshade-comp-b/1500/1000"
+              alt="Environmental composition"
+            >
+
+          </div>
+
+
+          <figcaption>
+
+            <span>
+              02 / Environment
+            </span>
+
+            <span>
+              Open frame
+            </span>
+
+          </figcaption>
+
+        </figure>
+
+
+        <figure class="comp comp-c">
+
+          <div class="photo">
+
+            <img
+              src="https://picsum.photos/seed/deepshade-comp-c/1000/1250"
+              alt="Detail composition"
+            >
+
+          </div>
+
+
+          <figcaption>
+
+            <span>
+              03 / Detail
+            </span>
+
+            <span>
+              Close crop
+            </span>
+
+          </figcaption>
+
+        </figure>
+
+
+        <figure class="comp comp-d">
+
+          <div class="photo">
+
+            <img
+              src="https://picsum.photos/seed/deepshade-comp-d/1300/1000"
+              alt="Street composition"
+            >
+
+          </div>
+
+
+          <figcaption>
+
+            <span>
+              04 / Street
+            </span>
+
+            <span>
+              Off centre
+            </span>
+
+          </figcaption>
+
+        </figure>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         QUOTE
+    ======================================= -->
+
+    <section class="quote-band">
+
+      <blockquote>
+
+        Light describes the object.
+        Shadow describes the feeling.
+
+      </blockquote>
+
+
+      <div class="small">
+
+        deep-shade /
+        photographic notes
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         GALLERY
+    ======================================= -->
+
+    <section
+      class="section"
+      id="gallery"
+    >
+
+      <header class="section-head">
+
+        <div class="eyebrow">
+
+          Gallery / studies
+
+        </div>
+
+
+        <h2>
+
+          Example images.
+
+        </h2>
+
+
+        <p>
+
+          A loose archive of visual
+          studies.
+
+          Hover reveals the original
+          colour; the default presentation
+          remains monochrome.
+
+        </p>
+
+      </header>
+
+
+      <div class="gallery">
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g1/1500/1000"
+            alt="Gallery example 1"
+          >
+
+          <span class="gallery-num">
+            001
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g2/900/1200"
+            alt="Gallery example 2"
+          >
+
+          <span class="gallery-num">
+            002
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g3/900/1200"
+            alt="Gallery example 3"
+          >
+
+          <span class="gallery-num">
+            003
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g4/900/1200"
+            alt="Gallery example 4"
+          >
+
+          <span class="gallery-num">
+            004
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g5/1500/850"
+            alt="Gallery example 5"
+          >
+
+          <span class="gallery-num">
+            005
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g6/900/1200"
+            alt="Gallery example 6"
+          >
+
+          <span class="gallery-num">
+            006
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g7/1500/1000"
+            alt="Gallery example 7"
+          >
+
+          <span class="gallery-num">
+            007
+          </span>
+
+        </figure>
+
+
+        <figure class="gallery-item">
+
+          <img
+            src="https://picsum.photos/seed/ds-g8/1500/1000"
+            alt="Gallery example 8"
+          >
+
+          <span class="gallery-num">
+            008
+          </span>
+
+        </figure>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         DARKROOM
+    ======================================= -->
+
+    <section
+      class="darkroom"
+      id="darkroom"
+    >
+
+      <header class="section-head">
+
+        <div class="eyebrow">
+
+          Browser darkroom
+
+        </div>
+
+
+        <h2>
+
+          Edit in deep-shade.
+
+        </h2>
+
+
+        <p>
+
+          Your photograph is processed
+          locally in the browser.
+
+          Upload an image, shape the tonal
+          range, use a preset and export
+          the result.
+
+        </p>
+
+      </header>
+
+
+      <div class="editor-shell">
+
+
+        <div class="editor-top">
+
+
+          <div>
+
+            <button
+              class="tool-btn"
+              id="editorOpen"
+            >
+              Open image
+            </button>
+
+          </div>
+
+
+          <div class="center">
+
+            deep-shade / darkroom
+
+          </div>
+
+
+          <div class="right">
+
+            <button
+              class="tool-btn"
+              id="undoBtn"
+            >
+              Undo
+            </button>
+
+            <button
+              class="tool-btn"
+              id="redoBtn"
+            >
+              Redo
+            </button>
+
+            <button
+              class="tool-btn"
+              id="exportBtn"
+            >
+              Export ↗
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="editor-main"
+          id="editorMain"
+        >
+
+
+          <div
+            class="editor-empty"
+            id="editorEmpty"
+          >
+
+            <div>
+
+              <strong>
+
+                Drop your photograph
+
+              </strong>
+
+              <span>
+
+                or click to choose an image
+
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <canvas id="editorCanvas"></canvas>
+
+
+          <div class="drag-label">
+
+            drop image
+
+          </div>
+
+        </div>
+
+
+        <div class="editor-controls">
+
+
+          <div class="control">
+
+            <label>
+
+              <span>
+                Exposure
+              </span>
+
+              <span id="exposureValue">
+                0
+              </span>
+
+            </label>
+
+            <input
+              id="exposure"
+              type="range"
+              min="-100"
+              max="100"
+              value="0"
+            >
+
+          </div>
+
+
+          <div class="control">
+
+            <label>
+
+              <span>
+                Contrast
+              </span>
+
+              <span id="contrastValue">
+                0
+              </span>
+
+            </label>
+
+            <input
+              id="contrast"
+              type="range"
+              min="-100"
+              max="100"
+              value="0"
+            >
+
+          </div>
+
+
+          <div class="control">
+
+            <label>
+
+              <span>
+                Highlights
+              </span>
+
+              <span id="highlightsValue">
+                0
+              </span>
+
+            </label>
+
+            <input
+              id="highlights"
+              type="range"
+              min="-100"
+              max="100"
+              value="0"
+            >
+
+          </div>
+
+
+          <div class="control">
+
+            <label>
+
+              <span>
+                Shadows
+              </span>
+
+              <span id="shadowsValue">
+                0
+              </span>
+
+            </label>
+
+            <input
+              id="shadows"
+              type="range"
+              min="-100"
+              max="100"
+              value="0"
+            >
+
+          </div>
+
+
+          <div class="control">
+
+            <label>
+
+              <span>
+                Saturation
+              </span>
+
+              <span id="saturationValue">
+                0
+              </span>
+
+            </label>
+
+            <input
+              id="saturation"
+              type="range"
+              min="-100"
+              max="100"
+              value="0"
+            >
+
+          </div>
+
+
+          <div class="control preset-control">
+
+
+            <div class="bw-row">
+
+              <span>
+                Black / White
+              </span>
+
+              <div
+                class="switch"
+                id="bwSwitch"
+                role="switch"
+                tabindex="0"
+              ></div>
+
+            </div>
+
+
+            <div class="preset-row">
+
+              <button
+                class="preset"
+                data-preset="clean"
+              >
+                Clean
+              </button>
+
+              <button
+                class="preset"
+                data-preset="noir"
+              >
+                Noir
+              </button>
+
+              <button
+                class="preset"
+                data-preset="soft"
+              >
+                Soft
+              </button>
+
+              <button
+                class="preset"
+                data-preset="street"
+              >
+                Street
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        hidden
+      >
+
+    </section>
+
+
+    <!-- ======================================
+         JOURNAL
+    ======================================= -->
+
+    <section
+      class="section"
+      id="journal"
+    >
+
+      <header class="section-head">
+
+        <div class="eyebrow">
+
+          Journal / blog
+
+        </div>
+
+
+        <h2>
+
+          Notes on seeing.
+
+        </h2>
+
+
+        <p>
+
+          Short essays about
+          black-and-white photography,
+          framing, visual rhythm and
+          building a personal
+          photographic language.
+
+        </p>
+
+      </header>
+
+
+      <div class="journal">
+
+
+        <article class="feature-post">
+
+
+          <div class="feature-image">
+
+            <img
+              src="https://picsum.photos/seed/ds-blog-main/1500/950"
+              alt="Blog feature image"
+            >
+
+          </div>
+
+
+          <div class="post-meta">
+
+            16 Sep 2026 · Composition · 7 min
+
+          </div>
+
+
+          <h3>
+
+            Why negative space makes
+            an image feel louder.
+
+          </h3>
+
+        </article>
+
+
+        <div class="post-list">
+
+
+          <article class="post-small">
+
+
+            <div class="thumb">
+
+              <img
+                src="https://picsum.photos/seed/ds-blog-1/500/500"
+                alt="Blog image"
+              >
+
+            </div>
+
+
+            <div>
+
+              <div class="post-meta">
+
+                Black & White · 5 min
+
+              </div>
+
+
+              <h4>
+
+                Building contrast without
+                losing the quiet parts.
+
+              </h4>
+
+            </div>
+
+          </article>
+
+
+          <article class="post-small">
+
+
+            <div class="thumb">
+
+              <img
+                src="https://picsum.photos/seed/ds-blog-2/500/500"
+                alt="Blog image"
+              >
+
+            </div>
+
+
+            <div>
+
+              <div class="post-meta">
+
+                Street · 4 min
+
+              </div>
+
+
+              <h4>
+
+                Waiting for geometry
+                instead of chasing moments.
+
+              </h4>
+
+            </div>
+
+          </article>
+
+
+          <article class="post-small">
+
+
+            <div class="thumb">
+
+              <img
+                src="https://picsum.photos/seed/ds-blog-3/500/500"
+                alt="Blog image"
+              >
+
+            </div>
+
+
+            <div>
+
+              <div class="post-meta">
+
+                Process · 6 min
+
+              </div>
+
+
+              <h4>
+
+                A simple tonal workflow
+                for deep monochrome files.
+
+              </h4>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         ABOUT
+    ======================================= -->
+
+    <section
+      class="about"
+      id="about"
+    >
+
+      <div class="eyebrow">
+
+        About deep-shade
+
+      </div>
+
+
+      <div class="about-copy">
+
+
+        <p>
+
+          A place for photographs,
+          visual experiments and the
+          process behind them.
+
+        </p>
+
+
+        <div class="about-small">
+
+          deep-shade combines a minimal
+          photography portfolio with
+          composition studies, editorial
+          notes and a lightweight browser
+          darkroom.
+
+          The visual system stays
+          deliberately restrained:
+          white space, black type,
+          monochrome imagery and only
+          the lines needed to give the
+          content structure.
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================
+         NEWSLETTER
+    ======================================= -->
+
+    <section class="newsletter">
+
+
+      <div class="newsletter-inner">
+
+
+        <div class="eyebrow">
+
+          New work / occasional notes
+
+        </div>
+
+
+        <div>
+
+
+          <h2>
+
+            Stay in the shade.
+
+          </h2>
+
+
+          <form
+            class="subscribe"
+            id="subscribeForm"
+          >
+
+            <input
+              type="email"
+              placeholder="Email address"
+              required
+            >
+
+            <button type="submit">
+
+              Subscribe ↗
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ======================================
+       FOOTER
+  ======================================= -->
+
+  <footer>
+
+    <span>
+
+      © 2026 deep-shade
+
+    </span>
+
+    <span>
+
+      Photography /
+      compositions /
+      journal /
+      darkroom
+
+    </span>
+
+  </footer>
+
+
+  <script>
+
+    /*
+    ===========================================
+    DEEP-SHADE
+    NAVIGATION
+    ===========================================
+    */
+
+    const menuBtn =
+      document.getElementById("menuBtn");
+
+    const mobileNav =
+      document.getElementById("mobileNav");
+
+
+    menuBtn.addEventListener(
+      "click",
+      () => {
+
+        mobileNav.classList.toggle(
+          "open"
+        );
+
+      }
+    );
+
+
+    mobileNav
+      .querySelectorAll("a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          () => {
+
+            mobileNav.classList.remove(
+              "open"
+            );
+
+          }
+        );
+
+      });
+
+
+    /*
+    ===========================================
+    NEWSLETTER
+    ===========================================
+    */
+
+    const subscribeForm =
+      document.getElementById(
+        "subscribeForm"
+      );
+
+
+    subscribeForm.addEventListener(
+      "submit",
+      event => {
+
+        event.preventDefault();
+
+
+        const button =
+          subscribeForm.querySelector(
+            "button"
+          );
+
+
+        const input =
+          subscribeForm.querySelector(
+            "input"
+          );
+
+
+        button.textContent =
+          "Thank you";
+
+
+        input.value =
+          "";
+
+      }
+    );
+
+
+    /*
+    ===========================================
+    DARKROOM
+    ===========================================
+    */
+
+    const fileInput =
+      document.getElementById(
+        "fileInput"
+      );
+
+
+    const canvas =
+      document.getElementById(
+        "editorCanvas"
+      );
+
+
+    const ctx =
+      canvas.getContext(
+        "2d",
+        {
+          willReadFrequently: true
+        }
+      );
+
+
+    const editorMain =
+      document.getElementById(
+        "editorMain"
+      );
+
+
+    const editorEmpty =
+      document.getElementById(
+        "editorEmpty"
+      );
+
+
+    const controlIds = [
+
+      "exposure",
+
+      "contrast",
+
+      "highlights",
+
+      "shadows",
+
+      "saturation"
+
+    ];
+
+
+    const defaultState = {
+
+      exposure: 0,
+
+      contrast: 0,
+
+      highlights: 0,
+
+      shadows: 0,
+
+      saturation: 0,
+
+      bw: false
+
+    };
+
+
+    const state = {
+      ...defaultState
+    };
+
+
+    let originalImageData =
+      null;
+
+
+    let currentFileName =
+      "deep-shade";
+
+
+    let history =
+      [];
+
+
+    let historyIndex =
+      -1;
+
+
+    let sliderStart =
+      null;
+
+
+    let renderQueued =
+      false;
+
+
+    /*
+    ===========================================
+    HELPERS
+    ===========================================
+    */
+
+    function cloneState() {
+
+      return JSON.parse(
+        JSON.stringify(state)
+      );
+
+    }
+
+
+    function statesEqual(
+      a,
+      b
+    ) {
+
+      return JSON.stringify(a)
+        ===
+        JSON.stringify(b);
+
+    }
+
+
+    function clamp(value) {
+
+      return Math.max(
+
+        0,
+
+        Math.min(
+          255,
+          value
+        )
+
+      );
+
+    }
+
+
+    /*
+    ===========================================
+    UPDATE INTERFACE
+    ===========================================
+    */
+
+    function updateUI() {
+
+
+      controlIds.forEach(
+        id => {
+
+
+          const slider =
+            document.getElementById(id);
+
+
+          const output =
+            document.getElementById(
+              id + "Value"
+            );
+
+
+          slider.value =
+            state[id];
+
+
+          output.textContent =
+
+            state[id] > 0
+
+              ? "+" + state[id]
+
+              : state[id];
+
+        }
+      );
+
+
+      const bwSwitch =
+        document.getElementById(
+          "bwSwitch"
+        );
+
+
+      bwSwitch.classList.toggle(
+
+        "on",
+
+        state.bw
+
+      );
+
+
+      bwSwitch.setAttribute(
+
+        "aria-checked",
+
+        String(state.bw)
+
+      );
+
+
+      document.getElementById(
+        "undoBtn"
+      ).disabled =
+
+        historyIndex <= 0;
+
+
+      document.getElementById(
+        "redoBtn"
+      ).disabled =
+
+        historyIndex < 0 ||
+
+        historyIndex >=
+        history.length - 1;
+
+    }
+
+
+    /*
+    ===========================================
+    HISTORY
+    ===========================================
+    */
+
+    function pushHistory() {
+
+
+      if (!originalImageData)
+        return;
+
+
+      const snapshot =
+        cloneState();
+
+
+      if (
+
+        historyIndex >= 0
+
+        &&
+
+        statesEqual(
+          history[historyIndex],
+          snapshot
+        )
+
+      ) {
+
+        return;
+
+      }
+
+
+      history =
+        history.slice(
+
+          0,
+
+          historyIndex + 1
+
+        );
+
+
+      history.push(
+        snapshot
+      );
+
+
+      historyIndex =
+        history.length - 1;
+
+
+      updateUI();
+
+    }
+
+
+    function restoreHistory(
+      index
+    ) {
+
+
+      if (
+
+        index < 0
+
+        ||
+
+        index >=
+        history.length
+
+      ) {
+
+        return;
+
+      }
+
+
+      historyIndex =
+        index;
+
+
+      Object.assign(
+
+        state,
+
+        history[index]
+
+      );
+
+
+      updateUI();
+
+      renderImage();
+
+    }
+
+
+    function undo() {
+
+      restoreHistory(
+        historyIndex - 1
+      );
+
+    }
+
+
+    function redo() {
+
+      restoreHistory(
+        historyIndex + 1
+      );
+
+    }
+
+
+    /*
+    ===========================================
+    OPEN IMAGE
+    ===========================================
+    */
+
+    function chooseImage() {
+
+      fileInput.value =
+        "";
+
+      fileInput.click();
+
+    }
+
+
+    document.getElementById(
+      "editorOpen"
+    ).addEventListener(
+
+      "click",
+
+      chooseImage
+
+    );
+
+
+    editorEmpty.addEventListener(
+
+      "click",
+
+      chooseImage
+
+    );
+
+
+    fileInput.addEventListener(
+
+      "change",
+
+      event => {
+
+
+        const file =
+          event.target.files[0];
+
+
+        if (!file)
+          return;
+
+
+        loadImage(file);
+
+      }
+
+    );
+
+
+    /*
+    ===========================================
+    LOAD IMAGE
+    ===========================================
+    */
+
+    function loadImage(file) {
+
+
+      if (
+
+        !file
+
+        ||
+
+        !file.type.startsWith(
+          "image/"
+        )
+
+      ) {
+
+        return;
+
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        event => {
+
+
+          const image =
+            new Image();
+
+
+          image.onload =
+            () => {
+
+
+              const maxEdge =
+                2400;
+
+
+              const scale =
+                Math.min(
+
+                  1,
+
+                  maxEdge /
+
+                  Math.max(
+
+                    image.naturalWidth,
+
+                    image.naturalHeight
+
+                  )
+
+                );
+
+
+              canvas.width =
+                Math.round(
+
+                  image.naturalWidth
+
+                  *
+
+                  scale
+
+                );
+
+
+              canvas.height =
+                Math.round(
+
+                  image.naturalHeight
+
+                  *
+
+                  scale
+
+                );
+
+
+              ctx.clearRect(
+
+                0,
+
+                0,
+
+                canvas.width,
+
+                canvas.height
+
+              );
+
+
+              ctx.drawImage(
+
+                image,
+
+                0,
+
+                0,
+
+                canvas.width,
+
+                canvas.height
+
+              );
+
+
+              originalImageData =
+                ctx.getImageData(
+
+                  0,
+
+                  0,
+
+                  canvas.width,
+
+                  canvas.height
+
+                );
+
+
+              currentFileName =
+
+                (
+                  file.name
+                  ||
+                  "deep-shade"
+                )
+
+                .replace(
+
+                  /\.[^.]+$/,
+
+                  ""
+
+                );
+
+
+              editorEmpty.style.display =
+                "none";
+
+
+              canvas.style.display =
+                "block";
+
+
+              history =
+                [];
+
+
+              historyIndex =
+                -1;
+
+
+              Object.assign(
+
+                state,
+
+                defaultState
+
+              );
+
+
+              document
+                .querySelectorAll(
+                  ".preset"
+                )
+                .forEach(
+                  button =>
+                    button.classList.remove(
+                      "active"
+                    )
+                );
+
+
+              updateUI();
+
+              renderImage();
+
+              pushHistory();
+
+            };
+
+
+          image.src =
+            event.target.result;
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+
+
+    /*
+    ===========================================
+    RENDER IMAGE
+    ===========================================
+    */
+
+    function renderImage() {
+
+
+      if (
+
+        !originalImageData
+
+        ||
+
+        renderQueued
+
+      ) {
+
+        return;
+
+      }
+
+
+      renderQueued =
+        true;
+
+
+      requestAnimationFrame(
+        () => {
+
+
+          renderQueued =
+            false;
+
+
+          const output =
+            new ImageData(
+
+              new Uint8ClampedArray(
+                originalImageData.data
+              ),
+
+              originalImageData.width,
+
+              originalImageData.height
+
+            );
+
+
+          const pixels =
+            output.data;
+
+
+          const exposureFactor =
+            Math.pow(
+
+              2,
+
+              state.exposure /
+              100 *
+              1.35
+
+            );
+
+
+          const contrastValue =
+            state.contrast *
+            2.1;
+
+
+          const contrastFactor =
+
+            (
+              259 *
+              (
+                contrastValue
+                +
+                255
+              )
+            )
+
+            /
+
+            (
+              255 *
+              (
+                259
+                -
+                contrastValue
+              )
+            );
+
+
+          const saturationFactor =
+            1
+            +
+            state.saturation /
+            100;
+
+
+          const highlightStrength =
+            state.highlights /
+            100;
+
+
+          const shadowStrength =
+            state.shadows /
+            100;
+
+
+          for (
+
+            let i = 0;
+
+            i < pixels.length;
+
+            i += 4
+
+          ) {
+
+
+            let r =
+              pixels[i]
+              *
+              exposureFactor;
+
+
+            let g =
+              pixels[i + 1]
+              *
+              exposureFactor;
+
+
+            let b =
+              pixels[i + 2]
+              *
+              exposureFactor;
+
+
+            const luminance =
+              0.2126 * r
+              +
+              0.7152 * g
+              +
+              0.0722 * b;
+
+
+            const normalized =
+              Math.max(
+
+                0,
+
+                Math.min(
+
+                  1,
+
+                  luminance /
+                  255
+
+                )
+
+              );
+
+
+            const shadowMask =
+              Math.pow(
+
+                1 -
+                normalized,
+
+                2
+
+              );
+
+
+            const highlightMask =
+              Math.pow(
+
+                normalized,
+
+                2
+
+              );
+
+
+            const tonalShift =
+
+              shadowStrength
+              *
+              shadowMask
+              *
+              88
+
+              +
+
+              highlightStrength
+              *
+              highlightMask
+              *
+              88;
+
+
+            r += tonalShift;
+
+            g += tonalShift;
+
+            b += tonalShift;
+
+
+            r =
+              contrastFactor
+              *
+              (
+                r - 128
+              )
+              +
+              128;
+
+
+            g =
+              contrastFactor
+              *
+              (
+                g - 128
+              )
+              +
+              128;
+
+
+            b =
+              contrastFactor
+              *
+              (
+                b - 128
+              )
+              +
+              128;
+
+
+            const newLuminance =
+
+              0.2126 * r
+
+              +
+
+              0.7152 * g
+
+              +
+
+              0.0722 * b;
+
+
+            if (
+              state.bw
+            ) {
+
+
+              r =
+                newLuminance;
+
+
+              g =
+                newLuminance;
+
+
+              b =
+                newLuminance;
+
+            }
+
+            else {
+
+
+              r =
+
+                newLuminance
+
+                +
+
+                (
+                  r
+                  -
+                  newLuminance
+                )
+
+                *
+
+                saturationFactor;
+
+
+              g =
+
+                newLuminance
+
+                +
+
+                (
+                  g
+                  -
+                  newLuminance
+                )
+
+                *
+
+                saturationFactor;
+
+
+              b =
+
+                newLuminance
+
+                +
+
+                (
+                  b
+                  -
+                  newLuminance
+                )
+
+                *
+
+                saturationFactor;
+
+            }
+
+
+            pixels[i] =
+              clamp(r);
+
+
+            pixels[i + 1] =
+              clamp(g);
+
+
+            pixels[i + 2] =
+              clamp(b);
+
+          }
+
+
+          ctx.putImageData(
+
+            output,
+
+            0,
+
+            0
+
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+    ===========================================
+    SLIDERS
+    ===========================================
+    */
+
+    controlIds.forEach(
+      id => {
+
+
+        const slider =
+          document.getElementById(id);
+
+
+        slider.addEventListener(
+
+          "pointerdown",
+
+          () => {
+
+
+            sliderStart =
+              cloneState();
+
+          }
+
+        );
+
+
+        slider.addEventListener(
+
+          "input",
+
+          () => {
+
+
+            if (
+              !originalImageData
+            ) {
+
+              slider.value =
+                0;
+
+              return;
+
+            }
+
+
+            state[id] =
+              Number(
+                slider.value
+              );
+
+
+            document.getElementById(
+              id + "Value"
+            ).textContent =
+
+              state[id] > 0
+
+                ? "+" + state[id]
+
+                : state[id];
+
+
+            document
+              .querySelectorAll(
+                ".preset"
+              )
+              .forEach(
+
+                button =>
+
+                  button.classList.remove(
+                    "active"
+                  )
+
+              );
+
+
+            renderImage();
+
+          }
+
+        );
+
+
+        slider.addEventListener(
+
+          "change",
+
+          () => {
+
+
+            if (
+              !originalImageData
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+
+              !sliderStart
+
+              ||
+
+              !statesEqual(
+
+                sliderStart,
+
+                state
+
+              )
+
+            ) {
+
+              pushHistory();
+
+            }
+
+
+            sliderStart =
+              null;
+
+          }
+
+        );
+
+      }
+    );
+
+
+    /*
+    ===========================================
+    BLACK / WHITE
+    ===========================================
+    */
+
+    const bwSwitch =
+      document.getElementById(
+        "bwSwitch"
+      );
+
+
+    function toggleBW() {
+
+
+      if (
+        !originalImageData
+      ) {
+
+        return;
+
+      }
+
+
+      state.bw =
+        !state.bw;
+
+
+      document
+        .querySelectorAll(
+          ".preset"
+        )
+        .forEach(
+
+          button =>
+
+            button.classList.remove(
+              "active"
+            )
+
+        );
+
+
+      updateUI();
+
+      renderImage();
+
+      pushHistory();
+
+    }
+
+
+    bwSwitch.addEventListener(
+
+      "click",
+
+      toggleBW
+
+    );
+
+
+    bwSwitch.addEventListener(
+
+      "keydown",
+
+      event => {
+
+
+        if (
+
+          event.key === "Enter"
+
+          ||
+
+          event.key === " "
+
+        ) {
+
+          event.preventDefault();
+
+          toggleBW();
+
+        }
+
+      }
+
+    );
+
+
+    /*
+    ===========================================
+    PRESETS
+    ===========================================
+    */
+
+    const presets = {
+
+
+      clean: {
+
+        exposure: 5,
+
+        contrast: 8,
+
+        highlights: -5,
+
+        shadows: 5,
+
+        saturation: 0,
+
+        bw: false
+
+      },
+
+
+      noir: {
+
+        exposure: -8,
+
+        contrast: 44,
+
+        highlights: -25,
+
+        shadows: -18,
+
+        saturation: -100,
+
+        bw: true
+
+      },
+
+
+      soft: {
+
+        exposure: 8,
+
+        contrast: -18,
+
+        highlights: -16,
+
+        shadows: 18,
+
+        saturation: -8,
+
+        bw: false
+
+      },
+
+
+      street: {
+
+        exposure: -2,
+
+        contrast: 35,
+
+        highlights: -28,
+
+        shadows: -8,
+
+        saturation: -12,
+
+        bw: false
+
+      }
+
+    };
+
+
+    document
+      .querySelectorAll(
+        ".preset"
+      )
+      .forEach(
+        button => {
+
+
+          button.addEventListener(
+
+            "click",
+
+            () => {
+
+
+              if (
+                !originalImageData
+              ) {
+
+                return;
+
+              }
+
+
+              const name =
+                button.dataset.preset;
+
+
+              Object.assign(
+
+                state,
+
+                presets[name]
+
+              );
+
+
+              document
+                .querySelectorAll(
+                  ".preset"
+                )
+                .forEach(
+
+                  item =>
+                    item.classList.remove(
+                      "active"
+                    )
+
+                );
+
+
+              button.classList.add(
+                "active"
+              );
+
+
+              updateUI();
+
+              renderImage();
+
+              pushHistory();
+
+            }
+
+          );
+
+        }
+      );
+
+
+    /*
+    ===========================================
+    UNDO / REDO
+    ===========================================
+    */
+
+    document
+      .getElementById(
+        "undoBtn"
+      )
+      .addEventListener(
+
+        "click",
+
+        undo
+
+      );
+
+
+    document
+      .getElementById(
+        "redoBtn"
+      )
+      .addEventListener(
+
+        "click",
+
+        redo
+
+      );
+
+
+    /*
+    ===========================================
+    EXPORT
+    ===========================================
+    */
+
+    function exportImage() {
+
+
+      if (
+        !originalImageData
+      ) {
+
+        chooseImage();
+
+        return;
+
+      }
+
+
+      canvas.toBlob(
+
+        blob => {
+
+
+          if (!blob)
+            return;
+
+
+          const url =
+            URL.createObjectURL(
+              blob
+            );
+
+
+          const link =
+            document.createElement(
+              "a"
+            );
+
+
+          link.href =
+            url;
+
+
+          link.download =
+
+            currentFileName
+
+            +
+
+            "-deep-shade.jpg";
+
+
+          document.body.appendChild(
+            link
+          );
+
+
+          link.click();
+
+
+          link.remove();
+
+
+          setTimeout(
+
+            () =>
+
+              URL.revokeObjectURL(
+                url
+              ),
+
+            1000
+
+          );
+
+        },
+
+        "image/jpeg",
+
+        0.95
+
+      );
+
+    }
+
+
+    document
+      .getElementById(
+        "exportBtn"
+      )
+      .addEventListener(
+
+        "click",
+
+        exportImage
+
+      );
+
+
+    /*
+    ===========================================
+    DRAG & DROP
+    ===========================================
+    */
+
+    [
+      "dragenter",
+      "dragover"
+    ]
+    .forEach(
+      eventName => {
+
+
+        editorMain.addEventListener(
+
+          eventName,
+
+          event => {
+
+
+            event.preventDefault();
+
+
+            editorMain.classList.add(
+              "dragging"
+            );
+
+          }
+
+        );
+
+      }
+    );
+
+
+    [
+      "dragleave",
+      "drop"
+    ]
+    .forEach(
+      eventName => {
+
+
+        editorMain.addEventListener(
+
+          eventName,
+
+          event => {
+
+
+            event.preventDefault();
+
+
+            editorMain.classList.remove(
+              "dragging"
+            );
+
+          }
+
+        );
+
+      }
+    );
+
+
+    editorMain.addEventListener(
+
+      "drop",
+
+      event => {
+
+
+        const file =
+          event.dataTransfer
+            .files[0];
+
+
+        loadImage(file);
+
+      }
+
+    );
+
+
+    /*
+    ===========================================
+    KEYBOARD SHORTCUTS
+    ===========================================
+    */
+
+    document.addEventListener(
+
+      "keydown",
+
+      event => {
+
+
+        const modifier =
+
+          event.metaKey
+
+          ||
+
+          event.ctrlKey;
+
+
+        /*
+        CMD / CTRL + Z
+        */
+
+        if (
+
+          modifier
+
+          &&
+
+          event.key
+            .toLowerCase()
+            ===
+            "z"
+
+          &&
+
+          !event.shiftKey
+
+        ) {
+
+          event.preventDefault();
+
+          undo();
+
+        }
+
+
+        /*
+        CMD / CTRL + SHIFT + Z
+        */
+
+        if (
+
+          modifier
+
+          &&
+
+          event.key
+            .toLowerCase()
+            ===
+            "z"
+
+          &&
+
+          event.shiftKey
+
+        ) {
+
+          event.preventDefault();
+
+          redo();
+
+        }
+
+
+        /*
+        CMD / CTRL + Y
+        */
+
+        if (
+
+          modifier
+
+          &&
+
+          event.key
+            .toLowerCase()
+            ===
+            "y"
+
+        ) {
+
+          event.preventDefault();
+
+          redo();
+
+        }
+
+      }
+
+    );
+
+
+    updateUI();
+
+  </script>
+
+</body>
+</html>
