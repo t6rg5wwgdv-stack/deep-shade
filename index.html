@@ -1643,6 +1643,42 @@
         line-height: 2;
       }
     }
+      /* Video Darkroom: isolated from the existing photo editor. */
+    #video-darkroom { scroll-margin-top: 86px; border-top: 1px solid #383838; }
+    #video-darkroom .vd-bar { display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:16px; border-bottom:1px solid #383838; }
+    #video-darkroom .vd-brand { font-family:var(--serif); font-size:20px; margin-right:auto; }
+    #video-darkroom button, #video-darkroom select, #video-darkroom .vd-download { background:#202020; border:1px solid #555; color:#fff; padding:10px 13px; font:inherit; font-size:12px; cursor:pointer; }
+    #video-darkroom button:hover { background:#353535; }
+    #video-darkroom :focus-visible { outline:2px solid white; outline-offset:3px; }
+    #video-darkroom :disabled { opacity:.4; cursor:not-allowed; }
+    #video-darkroom .vd-layout { display:grid; grid-template-columns:minmax(0,1fr) 300px; }
+    #video-darkroom .vd-stage { min-height:380px; background:#171717; display:grid; place-items:center; padding:20px; position:relative; }
+    #vdCanvas { display:block; max-width:100%; max-height:65vh; width:auto; height:auto; }
+    #vdCanvas[hidden], #video-darkroom [hidden] { display:none !important; }
+    #video-darkroom .vd-empty { padding:65px 20px; width:100%; border:1px dashed #555; text-align:center; color:#aaa; line-height:1.8; }
+    #video-darkroom .vd-empty strong { display:block; color:#fff; font:32px var(--serif); }
+    #video-darkroom .vd-panel { padding:22px; border-left:1px solid #383838; }
+    #video-darkroom fieldset { margin:0; padding:0; border:0; min-width:0; }
+    #video-darkroom legend { font-size:10px; text-transform:uppercase; letter-spacing:.15em; margin-bottom:20px; }
+    #video-darkroom .vd-control { display:block; font-size:12px; margin-bottom:17px; }
+    #video-darkroom output { float:right; color:#aaa; }
+    #video-darkroom input[type=range] { width:100%; accent-color:#ddd; margin:10px 0 0; }
+    #video-darkroom .vd-presets { display:flex; gap:7px; flex-wrap:wrap; margin-top:20px; }
+    #video-darkroom .vd-presets button[aria-pressed=true] { background:#fff; color:#111; }
+    #video-darkroom .vd-transport { padding:16px; border-top:1px solid #383838; display:flex; align-items:center; gap:14px; }
+    #vdTimeline { flex:1; min-width:50px; }
+    #vdTime { font-size:11px; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    #video-darkroom .vd-meta, #video-darkroom .vd-help, #vdStatus { color:#aaa; font-size:12px; line-height:1.7; overflow-wrap:anywhere; }
+    #video-darkroom .vd-meta { padding:12px 16px; margin:0; border-top:1px solid #383838; }
+    #video-darkroom .vd-export { padding:20px 16px; border-top:1px solid #383838; }
+    #video-darkroom .vd-options { display:flex; align-items:end; gap:12px; flex-wrap:wrap; }
+    #video-darkroom .vd-options label { display:grid; gap:8px; font-size:11px; }
+    #vdStatus[data-error=true] { color:#ffb9ad; }
+    #vdProgress { width:100%; accent-color:#aaa; margin-top:14px; }
+    #video-darkroom .vd-download { display:inline-block; margin-top:12px; }
+    @media(max-width:1100px) { .main-nav { gap:16px; } }
+    @media(max-width:800px) { #video-darkroom .vd-layout { grid-template-columns:1fr; } #video-darkroom .vd-panel { border-left:0; border-top:1px solid #383838; } #video-darkroom .vd-stage { min-height:240px; padding:10px; } #video-darkroom .vd-transport { flex-wrap:wrap; gap:10px; } #vdTime { width:100%; text-align:right; } }
+
   </style>
 </head>
 
@@ -1671,6 +1707,7 @@
       <a href="#darkroom">
         Darkroom
       </a>
+      <a href="#video-darkroom">Video Darkroom</a>
 
       <a href="#journal">
         Journal
@@ -1727,6 +1764,7 @@
     <a href="#darkroom">
       Darkroom
     </a>
+      <a href="#video-darkroom">Video Darkroom</a>
 
     <a href="#journal">
       Journal
@@ -2514,6 +2552,52 @@
         hidden
       >
 
+    </section>
+
+
+    <section class="darkroom" id="video-darkroom" aria-labelledby="vdHeading">
+      <header class="section-head">
+        <div class="eyebrow">Motion / local browser darkroom</div>
+        <h2 id="vdHeading">Moving through shade.</h2>
+        <p>Dein Film. Dein Licht. Monochrome Looks für lokale Videos – auch 4K-Quellen, sofern dein Browser sie dekodiert. Deine Videodatei wird nicht hochgeladen.</p>
+      </header>
+      <div class="editor-shell">
+        <div class="vd-bar"><span class="vd-brand">deep-shade / video darkroom</span><button id="vdOpen" type="button">Video öffnen ↗</button><button id="vdReset" type="button" disabled>Look zurücksetzen</button></div>
+        <input id="vdFile" type="file" accept="video/*,.mkv,.mov,.mp4,.m4v,.webm" hidden>
+        <video id="vdVideo" playsinline preload="metadata" hidden></video>
+        <div class="vd-layout">
+          <div>
+            <div class="vd-stage" id="vdDrop"><div class="vd-empty" id="vdEmpty"><strong>Motion in monochrome.</strong><p>Video hier ablegen oder „Video öffnen“ wählen.<br>Lokale Verarbeitung · keine Datei-Uploads</p></div><canvas id="vdCanvas" width="960" height="540" aria-label="Bearbeitete monochrome Videovorschau" hidden></canvas></div>
+            <div class="vd-transport"><button id="vdPlay" type="button" disabled>Abspielen</button><input id="vdTimeline" type="range" min="0" max="0" step="0.01" value="0" aria-label="Videoposition" disabled><span id="vdTime">00:00 / 00:00</span></div>
+            <p class="vd-meta" id="vdMeta">Noch kein Video geöffnet.</p>
+          </div>
+          <div class="vd-panel"><fieldset id="vdAdjust" disabled><legend>Monochrome / tonal range</legend>
+            <label class="vd-control" for="vdexposure">Exposure<output id="vdexposureValue" for="vdexposure">0</output><input id="vdexposure" type="range" min="-200" max="200" step="1" value="0"></label>
+<label class="vd-control" for="vdcontrast">Contrast<output id="vdcontrastValue" for="vdcontrast">0</output><input id="vdcontrast" type="range" min="-100" max="100" step="1" value="0"></label>
+<label class="vd-control" for="vdhighlights">Highlights<output id="vdhighlightsValue" for="vdhighlights">0</output><input id="vdhighlights" type="range" min="-100" max="100" step="1" value="0"></label>
+<label class="vd-control" for="vdshadows">Shadows<output id="vdshadowsValue" for="vdshadows">0</output><input id="vdshadows" type="range" min="-100" max="100" step="1" value="0"></label>
+<label class="vd-control" for="vdblacks">Blacks<output id="vdblacksValue" for="vdblacks">0</output><input id="vdblacks" type="range" min="-100" max="100" step="1" value="0"></label>
+<label class="vd-control" for="vdgrain">Film Grain<output id="vdgrainValue" for="vdgrain">0</output><input id="vdgrain" type="range" min="0" max="100" step="1" value="0"></label>
+<label class="vd-control" for="vdvignette">Vignette<output id="vdvignetteValue" for="vdvignette">0</output><input id="vdvignette" type="range" min="0" max="100" step="1" value="0"></label>
+            <div class="vd-presets" id="vdPresets" aria-label="Film-Presets"></div>
+          </fieldset></div>
+        </div>
+        <div class="vd-export">
+          <fieldset id="vdExportOptions" disabled><div class="vd-options">
+            <label>Export-Auflösung<select id="vdSize"><option value="1920">Bis 1920 × 1080</option><option value="1280">Bis 1280 × 720</option><option value="3840">Bis 3840 × 2160 · 4K testen</option><option value="source">Originalauflösung testen</option></select></label>
+            <label>Format / Codec<select id="vdCodec"></select></label>
+            <label>Ziel-Bildrate<select id="vdFps"><option value="24">24 fps</option><option value="25">25 fps</option><option value="30" selected>30 fps</option></select></label>
+            <label>Ton<select id="vdAudio"><option value="yes">Originalton übernehmen</option><option value="no">Ohne Ton</option></select></label>
+            <button id="vdExport" type="button" disabled>Export prüfen & starten ↗</button>
+          </div></fieldset>
+          <button id="vdCancel" type="button" hidden>Export abbrechen</button>
+          <progress id="vdProgress" max="1" value="0" aria-label="Exportfortschritt" hidden></progress>
+          <p class="vd-help" id="vdCapabilities"></p>
+          <p class="vd-help">Export in Echtzeit: Tab sichtbar lassen. Ziel-FPS sind keine Garantie für konstante Bildrate; bei hoher Last können Frames fehlen. 4K und H.264 hängen von Browser, Codec und Gerät ab. Die Vorschau wird für flüssige Bedienung verkleinert, der Export nutzt die gewählte Auflösung ohne Hochskalierung. SDR-Verarbeitung; HDR-Farben können abweichen. Maximal 512 MB Exportdaten im Arbeitsspeicher.</p>
+          <p id="vdStatus" role="status" aria-live="polite">Bereit für dein Video.</p>
+          <a id="vdDownload" class="vd-download" hidden>Bearbeitetes Video herunterladen ↗</a>
+        </div>
+      </div>
     </section>
 
 
@@ -4581,5 +4665,134 @@
 
   </script>
 
+<script>
+/* Video Darkroom. All state is private; no photo-editor selectors or globals. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById('vd' + id);
+  const video = $('Video'), canvas = $('Canvas');
+  const defaults = {exposure:0, contrast:0, highlights:0, shadows:0, blacks:0, grain:0, vignette:0};
+  const presets = {
+    'Japanese Noir':[0,38,-20,-24,-20,18,25], 'Moriyama':[15,65,15,-35,-35,65,28],
+    'Tri-X 400':[0,28,-15,12,-12,35,12], 'Ilford HP5':[5,15,-25,22,-5,25,8],
+    'Film Noir':[-15,48,-12,-30,-28,16,45], 'Brutalist Berlin':[-5,35,-30,8,-20,22,18]
+  };
+  let values={...defaults}, loaded=false, busy=false, sourceURL='', downloadURL='', fileName='video';
+  let gl=null, ctx=null, program, texture, uniforms={}, animation=0, recorder=null, stream=null;
+  let audioContext=null, audioSource=null, audioDestination=null, audioMonitor=null;
+  let cancelled=false, abortReason='', loadVersion=0, pendingLoadTimer=0;
+  const status=(message,error=false)=>{ $('Status').textContent=message; $('Status').dataset.error=String(error); };
+  const formatTime=t=>{ t=Number.isFinite(t)?Math.max(0,t):0; const s=Math.floor(t); return (s>=3600?Math.floor(s/3600)+':':'')+String(Math.floor(s/60)%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); };
+  const dims=(limit)=>{const w=video.videoWidth,h=video.videoHeight; const scale=limit==='source'?1:Math.min(1,Number(limit)/Math.max(w,h),(Number(limit)*9/16)/Math.min(w,h)); return [Math.max(2,Math.floor(w*scale/2)*2),Math.max(2,Math.floor(h*scale/2)*2)];};
+  function resize(limit){ const [w,h]=dims(limit); if(gl && (Math.max(w,h)>gl.getParameter(gl.MAX_TEXTURE_SIZE)||w>gl.getParameter(gl.MAX_VIEWPORT_DIMS)[0]||h>gl.getParameter(gl.MAX_VIEWPORT_DIMS)[1])) throw Error('Diese Auflösung überschreitet die GPU-Grenzen. Bitte 1080p oder 720p wählen.'); canvas.width=w; canvas.height=h; }
+  function setupRenderer(){
+    gl=canvas.getContext('webgl',{alpha:false,preserveDrawingBuffer:true,antialias:false});
+    if(!gl){ctx=canvas.getContext('2d',{willReadFrequently:true}); if(!ctx)throw Error('Canvas ist nicht verfügbar.'); return;}
+    const shader=(type,code)=>{const s=gl.createShader(type); gl.shaderSource(s,code); gl.compileShader(s); if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('GPU-Filter konnten nicht initialisiert werden.'); return s;};
+    program=gl.createProgram();
+    gl.attachShader(program,shader(gl.VERTEX_SHADER,'attribute vec2 p; varying vec2 uv; void main(){uv=(p+1.0)*0.5;gl_Position=vec4(p,0.,1.);}'));
+    gl.attachShader(program,shader(gl.FRAGMENT_SHADER,`precision mediump float; varying vec2 uv; uniform sampler2D image; uniform float exposure,contrast,highlights,shadows,blacks,grain,vignette,seed;
+      void main(){ vec3 c=texture2D(image,vec2(uv.x,1.0-uv.y)).rgb; float y=dot(c,vec3(.2126,.7152,.0722));
+      y*=exp2(exposure); y+=(shadows*(1.0-y)*(1.0-y)+highlights*y*y)*.45; y+=blacks*pow(max(0.0,1.0-y),3.0)*.4;
+      y=(y-.5)*(1.0+contrast)+.5; vec2 q=(uv-.5)*2.0; y*=1.0-vignette*smoothstep(.2,1.4,length(q))*.8;
+      float n=fract(sin(dot(gl_FragCoord.xy+seed,vec2(12.9898,78.233)))*43758.5453)-.5;
+      y+=n*grain*.22; gl_FragColor=vec4(vec3(clamp(y,0.0,1.0)),1.0); }`));
+    gl.linkProgram(program); if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('GPU-Filter konnten nicht verbunden werden.'); gl.useProgram(program);
+    const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const location=gl.getAttribLocation(program,'p'); gl.enableVertexAttribArray(location); gl.vertexAttribPointer(location,2,gl.FLOAT,false,0,0);
+    texture=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,texture); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    for(const name of [...Object.keys(defaults),'seed']) uniforms[name]=gl.getUniformLocation(program,name);
+  }
+  function render(){
+    if(!loaded||video.readyState<2)return;
+    if(gl){
+      if(gl.isContextLost())throw Error('GPU-Verbindung verloren. Seite neu laden oder ein kleineres Video versuchen.');
+      gl.viewport(0,0,canvas.width,canvas.height); gl.bindTexture(gl.TEXTURE_2D,texture); gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,video);
+      for(const key of Object.keys(defaults))gl.uniform1f(uniforms[key],values[key]/100);
+      gl.uniform1f(uniforms.seed,Math.floor(video.currentTime*30)%1000); gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    } else {
+      ctx.drawImage(video,0,0,canvas.width,canvas.height); const frame=ctx.getImageData(0,0,canvas.width,canvas.height),d=frame.data,w=canvas.width,h=canvas.height,v=values;
+      for(let i=0;i<d.length;i+=4){let y=(d[i]*.2126+d[i+1]*.7152+d[i+2]*.0722)/255*Math.pow(2,v.exposure/100);y+=(v.shadows*(1-y)*(1-y)+v.highlights*y*y)/100*.45;y+=v.blacks/100*Math.pow(Math.max(0,1-y),3)*.4;y=(y-.5)*(1+v.contrast/100)+.5; const x=((i/4)%w)/w*2-1,yy=Math.floor(i/4/w)/h*2-1,t=Math.max(0,Math.min(1,(Math.hypot(x,yy)-.2)/1.2));y*=1-v.vignette/100*t*t*(3-2*t)*.8;y+=(Math.random()-.5)*v.grain/100*.22;d[i]=d[i+1]=d[i+2]=Math.max(0,Math.min(255,y*255));}ctx.putImageData(frame,0,0);
+    }
+  }
+  function tick(){cancelAnimationFrame(animation);try{render();}catch(e){if(busy)cancel(e.message);else{video.pause();status(e.message,true);}} $('Timeline').value=String(video.currentTime||0); $('Time').textContent=formatTime(video.currentTime)+' / '+formatTime(video.duration); if(busy)$('Progress').value=video.currentTime/video.duration; if(!video.paused)animation=requestAnimationFrame(tick);}
+  function controls(){ $('Open').disabled=busy; $('File').disabled=busy; $('Reset').disabled=!loaded||busy; $('Play').disabled=!loaded||busy; $('Timeline').disabled=!loaded||busy; $('Adjust').disabled=!loaded||busy; $('ExportOptions').disabled=!loaded||busy; $('Export').disabled=!loaded||busy||!canRecord; $('Cancel').hidden=!busy; $('Progress').hidden=!busy; }
+  function syncLook(){for(const key of Object.keys(defaults)){ $(key).value=values[key]; $(key+'Value').value=key==='exposure'?(values[key]/100).toFixed(2)+' EV':String(values[key]);} render();}
+  for(const [name,settings]of Object.entries(presets)){const b=document.createElement('button');b.type='button';b.textContent=name;b.setAttribute('aria-pressed','false');b.onclick=()=>{Object.keys(defaults).forEach((key,i)=>values[key]=settings[i]);for(const other of $('Presets').children)other.setAttribute('aria-pressed',String(other===b));syncLook();};$('Presets').append(b);}
+  for(const key of Object.keys(defaults))$(key).addEventListener('input',()=>{values[key]=Number($(key).value);for(const b of $('Presets').children)b.setAttribute('aria-pressed','false');syncLook();});
+  $('Reset').onclick=()=>{values={...defaults};for(const b of $('Presets').children)b.setAttribute('aria-pressed','false');syncLook();};
+  function clearDownload(){if(downloadURL)URL.revokeObjectURL(downloadURL);downloadURL='';$('Download').hidden=true;$('Download').removeAttribute('href');}
+  async function openFile(file){
+    if(!file||busy)return;
+    const version=++loadVersion;video.pause();loaded=false;controls();clearDownload();clearTimeout(pendingLoadTimer); if(sourceURL)URL.revokeObjectURL(sourceURL);
+    $('Canvas').hidden=true;$('Empty').hidden=false;$('Meta').textContent='Video wird lokal gelesen …';status('Video wird geöffnet …');
+    fileName=file.name.replace(/\.[^.]+$/,''); sourceURL=URL.createObjectURL(file);video.src=sourceURL;video.load();
+    pendingLoadTimer=setTimeout(()=>{if(version===loadVersion&&!loaded){status('Das Video konnte nicht rechtzeitig geladen werden. Codec prüfen oder eine andere Datei öffnen.',true);}},20000);
+  }
+  video.addEventListener('loadeddata',()=>{try{
+    clearTimeout(pendingLoadTimer);
+    if(!video.videoWidth||!Number.isFinite(video.duration)||video.duration<=0)throw Error('Keine gültige Videospur oder keine zuverlässig lesbare Dauer. Bitte eine andere Datei verwenden.');
+    if(gl && Math.max(video.videoWidth,video.videoHeight)>gl.getParameter(gl.MAX_TEXTURE_SIZE))throw Error('Das Video überschreitet die maximale Texturgröße dieses Geräts. Bitte eine kleinere Quelle öffnen.');
+    loaded=true;resize(gl?1280:640);values={...defaults};syncLook();for(const b of $('Presets').children)b.setAttribute('aria-pressed','false');$('Timeline').max=String(video.duration);$('Canvas').hidden=false;$('Empty').hidden=true;
+    $('Meta').textContent=fileName+' · '+video.videoWidth+' × '+video.videoHeight+' px · '+formatTime(video.duration)+' · Quell-FPS: nicht zuverlässig verfügbar · Vorschau '+canvas.width+' × '+canvas.height;
+    status(gl?'Video bereit. Wähle einen Look oder passe die Tonwerte an.':'CPU-Vorschau aktiv: reduzierte Auflösung. Export auf maximal 720p begrenzt.');controls();tick();
+  }catch(e){loaded=false;controls();status(e.message,true);}});
+  video.addEventListener('error',()=>{clearTimeout(pendingLoadTimer);loaded=false;controls();const message='Video nicht lesbar: Codec, Container oder Datei wird von diesem Browser nicht unterstützt. Eine andere Datei oder einen anderen Browser versuchen.'; if(busy)cancel(message);else status(message,true);});
+  $('Open').onclick=()=>$('File').click();$('File').onchange=()=>{openFile($('File').files[0]);$('File').value='';};
+  $('Drop').addEventListener('dragover',e=>e.preventDefault());$('Drop').addEventListener('drop',e=>{e.preventDefault();openFile(e.dataTransfer.files[0]);});
+  $('Play').onclick=async()=>{try{if(audioContext)await audioContext.resume();if(video.paused){if(video.ended)video.currentTime=0;await video.play();}else video.pause();}catch(e){status('Wiedergabe nicht möglich: '+e.message,true);}};
+  video.addEventListener('play',()=>{$('Play').textContent='Pause';cancelAnimationFrame(animation);tick();});video.addEventListener('pause',()=>{$('Play').textContent='Abspielen';cancelAnimationFrame(animation);});
+  $('Timeline').oninput=()=>{video.currentTime=Number($('Timeline').value);};video.addEventListener('seeked',()=>{if(!busy)tick();});
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();video.pause();loaded=false;if(busy)cancel('GPU-Verbindung verloren. Bitte Seite neu laden.');controls();status('GPU-Verbindung verloren. Bitte Seite neu laden.',true);});
+  const formats=[['video/webm;codecs=vp9','WebM / VP9'],['video/webm;codecs=vp8','WebM / VP8'],['video/mp4;codecs=avc1.42E01E','MP4 / H.264'],['video/mp4','MP4 / Browser-Codec'],['video/webm','WebM / Browser-Codec']];
+  const canRecord=typeof MediaRecorder!=='undefined'&&typeof canvas.captureStream==='function'&&formats.some(([mime])=>MediaRecorder.isTypeSupported(mime));
+  for(const [mime,label]of formats)if(typeof MediaRecorder!=='undefined'&&MediaRecorder.isTypeSupported(mime)){const option=document.createElement('option');option.value=mime;option.textContent=label;$('Codec').append(option);}
+  $('Capabilities').textContent=canRecord?'Verfügbare Formate wurden im Browser abgefragt. Vor jedem Export prüft eine kurze Probeaufnahme die tatsächliche Auflösung und Abspielbarkeit. Eine positive Codec-Abfrage allein garantiert keinen erfolgreichen Export.':'Dieser Browser bietet keinen unterstützten Canvas-Videoexport. Die Vorschau bleibt nutzbar. Für den Export einen Browser mit MediaRecorder und Canvas captureStream verwenden.';
+  function waitEvent(target,event,timeout=15000){return new Promise((resolve,reject)=>{const done=()=>{cleanup();resolve();},fail=()=>{cleanup();reject(Error('Video konnte nicht dekodiert werden.'));},timer=setTimeout(()=>{cleanup();reject(Error('Zeitüberschreitung beim Lesen des Videos.'));},timeout);function cleanup(){clearTimeout(timer);target.removeEventListener(event,done);target.removeEventListener('error',fail);}target.addEventListener(event,done,{once:true});target.addEventListener('error',fail,{once:true});});}
+  async function seekStart(){video.pause();if(video.currentTime!==0){const ready=waitEvent(video,'seeked');video.currentTime=0;await ready;}render();}
+  async function verify(blob,w,h){const test=document.createElement('video'),url=URL.createObjectURL(blob);test.muted=true;test.playsInline=true;test.preload='auto';try{const ready=waitEvent(test,'loadeddata');test.src=url;test.load();await ready;if(test.videoWidth!==w||test.videoHeight!==h)throw Error('Browser lieferte '+test.videoWidth+' × '+test.videoHeight+' statt '+w+' × '+h+'. Bitte niedrigere Auflösung oder anderes Format wählen.');}finally{test.removeAttribute('src');test.load();URL.revokeObjectURL(url);}}
+  async function setupAudio(){
+    if(!audioContext){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error('Tonübernahme ist hier nicht verfügbar. Wähle ausdrücklich „Ohne Ton“ oder einen anderen Browser.');audioContext=new AC();audioSource=audioContext.createMediaElementSource(video);audioMonitor=audioContext.createGain();audioSource.connect(audioMonitor);audioMonitor.connect(audioContext.destination);}
+    await audioContext.resume();if(audioContext.state!=='running')throw Error('Tonverarbeitung wurde blockiert. Erneut starten oder „Ohne Ton“ wählen.');
+    audioDestination=audioContext.createMediaStreamDestination();audioSource.connect(audioDestination);audioMonitor.gain.value=0;return audioDestination.stream.getAudioTracks();
+  }
+  function recording(mime,fps,probe){return new Promise((resolve,reject)=>{
+    const chunks=[];let bytes=0,failed='',timer,watchdog,lastTime=video.currentTime,stalled=0;
+    try{recorder=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:canvas.width*canvas.height>2100000?24000000:8000000});}catch(e){reject(Error('Encoder konnte nicht gestartet werden. Andere Auflösung oder anderes Format wählen. '+e.message));return;}
+    const current=recorder;
+    current.ondataavailable=e=>{if(e.data.size){bytes+=e.data.size;if(bytes>512*1024*1024){failed='Export überschreitet 512 MB. Bitte einen kürzeren Clip oder niedrigere Auflösung verwenden.';current.stop();}else chunks.push(e.data);}};
+    current.onerror=()=>{failed='Der Browser-Encoder ist fehlgeschlagen. Niedrigere Auflösung oder anderes Format versuchen.';if(current.state!=='inactive')current.stop();};
+    const ended=()=>{if(current.state!=='inactive')current.stop();};
+    current.onstop=()=>{clearInterval(timer);clearInterval(watchdog);video.removeEventListener('ended',ended);recorder=null;const blob=new Blob(chunks,{type:current.mimeType||mime});if(cancelled||failed)reject(Error(abortReason||failed||'Export abgebrochen.'));else if(!blob.size)reject(Error('Der Encoder hat keine Videodaten erzeugt.'));else resolve(blob);};
+    try{current.start(300);}catch(e){recorder=null;reject(Error('Aufnahme nicht unterstützt: '+e.message));return;}
+    if(probe){let count=0;timer=setInterval(()=>{try{render();if(++count>=12&&current.state!=='inactive')current.stop();}catch(e){failed=e.message;if(current.state!=='inactive')current.stop();}},100);}
+    else{video.addEventListener('ended',ended,{once:true});video.play().catch(e=>{failed='Wiedergabe für Export fehlgeschlagen: '+e.message;ended();});watchdog=setInterval(()=>{stalled=video.currentTime===lastTime?stalled+1:0;lastTime=video.currentTime;if(stalled>20){failed='Export angehalten: Video liefert keine neuen Frames. Bitte erneut versuchen.';ended();}},1000);}
+  });}
+  function cancel(reason='Export abgebrochen.'){cancelled=true;abortReason=reason;video.pause();if(recorder&&recorder.state!=='inactive')recorder.stop();}
+  $('Cancel').onclick=()=>cancel();
+  document.addEventListener('visibilitychange',()=>{if(busy&&document.hidden)cancel('Export abgebrochen, weil der Tab verborgen wurde. Für zuverlässige Aufnahme den Tab sichtbar lassen.');});
+  $('Export').onclick=async()=>{
+    if(!loaded||busy||!canRecord)return;
+    busy=true;cancelled=false;abortReason='';controls();clearDownload();$('Progress').value=0;
+    try{
+      if(!gl && ($('Size').value==='source'||Number($('Size').value)>1280))throw Error('Ohne GPU ist Export auf 720p begrenzt. Bitte „Bis 1280 × 720“ wählen.');
+      const audio=$('Audio').value==='yes'?await setupAudio():[];
+      if(audioMonitor)audioMonitor.gain.value=0;
+      await seekStart();if(cancelled)throw Error(abortReason);resize($('Size').value);render();const w=canvas.width,h=canvas.height,fps=Number($('Fps').value),mime=$('Codec').value;
+      status('Teste '+w+' × '+h+' mit '+$('Codec').selectedOptions[0].textContent+' …');
+      stream=canvas.captureStream(fps);for(const track of audio)stream.addTrack(track);
+      const probe=await recording(mime,fps,true);await verify(probe,w,h);if(cancelled)throw Error(abortReason);
+      status('Probe erfolgreich. Export läuft in Echtzeit: '+w+' × '+h+' · Tab sichtbar lassen.');
+      await seekStart();const blob=await recording(mime,fps,false);video.pause();status('Export wird auf Auflösung und Abspielbarkeit geprüft …');await verify(blob,w,h);if(cancelled)throw Error(abortReason);
+      downloadURL=URL.createObjectURL(blob);const link=$('Download');link.href=downloadURL;link.download=fileName+'-deep-shade.'+(blob.type.includes('mp4')?'mp4':'webm');link.hidden=false;
+      status('Export bereit: '+w+' × '+h+' · '+(blob.size/1024/1024).toFixed(1)+' MB · '+blob.type+'. Bildrate und Synchronität bitte im Ergebnis prüfen.');
+    }catch(e){status((cancelled?abortReason:e.message)||'Export fehlgeschlagen. Bitte niedrigere Auflösung oder anderes Format versuchen.',true);}
+    finally{video.pause();if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;if(audioDestination){audioSource.disconnect(audioDestination);audioDestination=null;}if(audioMonitor)audioMonitor.gain.value=1;busy=false;if(loaded){try{resize(gl?1280:640);render();}catch(e){status(e.message,true);}}controls();}
+  };
+  window.addEventListener('pagehide',event=>{if(event.persisted){if(busy)cancel();return;}if(busy)cancel();if(sourceURL)URL.revokeObjectURL(sourceURL);if(downloadURL)URL.revokeObjectURL(downloadURL);if(stream)stream.getTracks().forEach(t=>t.stop());if(audioContext)audioContext.close();});
+  try{setupRenderer();}catch(e){$('Open').disabled=true;$('File').disabled=true;status(e.message,true);}
+})();
+
+</script>
 </body>
 </html>
