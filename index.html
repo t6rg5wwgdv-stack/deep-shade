@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
 
-  <title>deep-shade — Photography, Compositions & Darkroom</title>
+  <title>deep-shade — Monochrome Photo & Video Darkroom</title>
 
   <style>
     :root {
@@ -1679,6 +1679,77 @@
     @media(max-width:1100px) { .main-nav { gap:16px; } }
     @media(max-width:800px) { #video-darkroom .vd-layout { grid-template-columns:1fr; } #video-darkroom .vd-panel { border-left:0; border-top:1px solid #383838; } #video-darkroom .vd-stage { min-height:240px; padding:10px; } #video-darkroom .vd-transport { flex-wrap:wrap; gap:10px; } #vdTime { width:100%; text-align:right; } }
 
+    /* =========================
+       DEEP-SHADE 2026 / STYLE UPGRADE
+    ========================= */
+    .origin-mark { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--grey); }
+    .account-link,.mobile-account,.line-button { border:0; border-bottom:1px solid currentColor; border-radius:0; background:transparent; padding:7px 0; cursor:pointer; text-transform:uppercase; letter-spacing:.11em; font-size:10px; }
+    .editor-link { border-radius:0; padding:9px 0; border:0; border-bottom:1px solid var(--black); }
+    .preset-library { background:#f7f7f5; }
+    .preset-showcase { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; }
+    .preset-showcase button { padding:0; border:0; background:transparent; text-align:left; cursor:pointer; color:inherit; }
+    .preset-showcase img { aspect-ratio:4/5; filter:grayscale(100%); transition:transform .6s ease, filter .6s ease; }
+    .preset-showcase button:hover img { transform:translateY(-4px); filter:grayscale(100%) contrast(1.12); }
+    .preset-showcase span { display:block; margin-top:10px; font-family:var(--serif); font-size:20px; }
+    .preset-showcase small { display:block; margin-top:4px; color:var(--grey); font-size:9px; text-transform:uppercase; letter-spacing:.08em; }
+    .photo-editor-shell { overflow:hidden; }
+    .editor-top-actions { display:flex; gap:16px; align-items:center; }
+    #photoCompare #editorCanvas { display:block; }
+    .photo-compare,.video-compare { position:relative; display:grid; place-items:center; max-width:100%; max-height:70vh; }
+    .photo-compare canvas,.video-compare canvas { grid-area:1/1; display:block; max-width:100%; max-height:65vh; width:auto; height:auto; }
+    .before-layer,.vd-before-layer { grid-area:1/1; align-self:stretch; justify-self:stretch; overflow:hidden; clip-path:inset(0 50% 0 0); position:relative; pointer-events:none; }
+    .before-layer canvas,.vd-before-layer canvas { width:100%; height:100%; object-fit:contain; }
+    .before-layer span,.vd-before-layer span,.after-label,.vd-after-label { position:absolute; top:12px; padding:5px 7px; background:rgba(8,8,8,.72); color:white; font-size:8px; letter-spacing:.12em; text-transform:uppercase; z-index:4; }
+    .before-layer span,.vd-before-layer span { left:12px; }
+    .after-label,.vd-after-label { right:12px; }
+    .compare-rule,.vd-compare-rule { position:absolute; top:0; bottom:0; left:50%; width:1px; background:white; box-shadow:0 0 0 1px rgba(0,0,0,.15); pointer-events:none; z-index:5; }
+    .compare-rule::after,.vd-compare-rule::after { content:'↔'; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:34px; height:34px; display:grid; place-items:center; border:1px solid white; border-radius:50%; background:#111; color:#fff; font-size:12px; }
+    .compare-toolbar,.vd-compare-toolbar { padding:12px 16px; border-top:1px solid #383838; display:flex; gap:18px; align-items:center; color:#aaa; font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
+    .compare-toolbar label,.vd-compare-toolbar label { display:flex; gap:12px; align-items:center; flex:1; }
+    .compare-toolbar input,.vd-compare-toolbar input { flex:1; }
+    .editor-controls { grid-template-columns:repeat(4,1fr); }
+    .preset-control { grid-column:span 1; min-width:260px; }
+    .film-preset-row { grid-template-columns:repeat(2,1fr); }
+    .custom-presets { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+    .custom-presets button { border:1px solid #444; background:transparent; color:#aaa; padding:6px 8px; font-size:8px; text-transform:uppercase; letter-spacing:.08em; cursor:pointer; }
+    .custom-presets button:hover { background:#fff; color:#111; }
+    .photo-export-options { border-top:1px solid #383838; display:flex; gap:18px; align-items:end; flex-wrap:wrap; padding:16px; color:#aaa; }
+    .photo-export-options label { display:grid; gap:7px; font-size:9px; text-transform:uppercase; letter-spacing:.1em; }
+    .photo-export-options select { background:#151515; color:#fff; border:0; border-bottom:1px solid #555; padding:8px 20px 8px 0; }
+    #photoExportMeta { margin-left:auto; font-size:9px; text-transform:uppercase; letter-spacing:.08em; }
+    #video-darkroom .vd-stage.dragging { outline:1px dashed #aaa; outline-offset:-10px; }
+    #video-darkroom .video-compare { width:100%; }
+    #video-darkroom .vd-before-layer canvas { max-width:100%; max-height:65vh; }
+    #video-darkroom .vd-compare-toolbar { border-top:0; border-bottom:1px solid #383838; }
+    .gallery-location { position:absolute; right:10px; bottom:10px; padding:6px 8px; background:rgba(255,255,255,.92); color:#111; font-size:8px; text-transform:uppercase; letter-spacing:.09em; }
+    .study-under { margin-top:8px; color:var(--grey); font-size:9px; text-transform:uppercase; letter-spacing:.12em; }
+    img.portrait-tight { object-position:center 38%; }
+    .comp-a img.portrait-tight { object-position:center 34%; }
+    .community-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .community-grid figure { margin:0; }
+    .community-grid img { aspect-ratio:4/5; filter:grayscale(100%); }
+    .community-grid figcaption { display:flex; justify-content:space-between; gap:10px; margin-top:8px; font-size:9px; text-transform:uppercase; letter-spacing:.11em; }
+    .community-actions { margin-top:34px; display:flex; justify-content:space-between; gap:20px; align-items:center; }
+    .community-actions span { color:var(--grey); font-size:10px; max-width:560px; }
+    .account-dialog { width:min(620px,calc(100vw - 32px)); border:1px solid #ccc; padding:0; background:#fff; color:#111; }
+    .account-dialog::backdrop { background:rgba(0,0,0,.62); backdrop-filter:blur(8px); }
+    .account-card { padding:30px; }
+    .account-head { display:flex; justify-content:space-between; align-items:center; }
+    .account-head button { border:0; background:transparent; font:30px/1 var(--serif); cursor:pointer; }
+    .account-card h2 { margin:42px 0 12px; font:400 clamp(42px,7vw,78px)/.88 var(--serif); letter-spacing:-.055em; }
+    .account-card p { color:var(--grey); line-height:1.5; font-size:12px; }
+    .account-card label { display:grid; gap:8px; margin-top:24px; font-size:9px; text-transform:uppercase; letter-spacing:.12em; }
+    .account-card input { border:0; border-bottom:1px solid #aaa; padding:10px 0; outline:0; font:24px var(--serif); }
+    .account-actions { display:flex; gap:20px; margin-top:30px; }
+    .line-button.subtle { color:#777; }
+    .newsletter-status { margin:16px 0 0; color:#777; font-size:9px; line-height:1.5; text-transform:uppercase; letter-spacing:.08em; }
+    .reveal-ready { opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.75,.25,1); }
+    .reveal-ready.revealed { opacity:1; transform:none; }
+    @media (max-width:1200px){ .preset-showcase{grid-template-columns:repeat(3,1fr)} .main-nav{gap:14px}.main-nav a{font-size:9px}.editor-controls{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:800px){ .preset-showcase{grid-template-columns:repeat(2,1fr)} .community-grid{grid-template-columns:1fr 1fr}.community-actions{align-items:flex-start;flex-direction:column}.compare-toolbar,.vd-compare-toolbar{align-items:flex-start;flex-direction:column}.compare-toolbar label,.vd-compare-toolbar label{width:100%}.photo-export-options{align-items:stretch}.photo-export-options label{width:100%}#photoExportMeta{margin-left:0}.editor-controls{grid-template-columns:1fr}.preset-control{min-width:0}.gallery-location{display:none} }
+    @media (max-width:520px){ .preset-showcase,.community-grid{grid-template-columns:1fr}.preset-showcase img{aspect-ratio:16/10}.editor-top{display:flex;flex-wrap:wrap;gap:14px;padding:14px 12px}.editor-top .right{margin-left:auto}.editor-top-actions{width:100%;justify-content:space-between}.photo-compare,.video-compare{max-height:55vh}.photo-compare canvas,.video-compare canvas{max-height:52vh}.account-card{padding:22px}.community-grid img{aspect-ratio:4/3} }
+    @media (prefers-reduced-motion:reduce){ .reveal-ready{opacity:1;transform:none;transition:none}.preset-showcase img,.gallery-item img,.hero-image img{transition:none!important} }
+
   </style>
 </head>
 
@@ -1695,46 +1766,20 @@
     </a>
 
     <nav class="main-nav">
-
-      <a href="#compositions">
-        Compositions
-      </a>
-
-      <a href="#gallery">
-        Gallery
-      </a>
-
-      <a href="#darkroom">
-        Darkroom
-      </a>
-      <a href="#video-darkroom">Video Darkroom</a>
-
-      <a href="#journal">
-        Journal
-      </a>
-
-      <a href="#about">
-        About
-      </a>
-
+      <a href="#presets">Presets</a>
+      <a href="#darkroom">Photo editor</a>
+      <a href="#video-darkroom">Video editor</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#journal">Journal</a>
+      <a href="#community">Community</a>
+      <a href="#about">About</a>
     </nav>
 
 
     <div class="header-right">
-
-      <a href="#journal">
-        Notes
-      </a>
-
-      <a
-        class="editor-link"
-        href="#darkroom"
-      >
-        Open editor ↘
-      </a>
-
+      <button class="account-link" id="accountBtn" type="button">Local account</button>
+      <a class="editor-link" href="#darkroom">Open editor ↘</a>
     </div>
-
 
     <button
       class="menu-btn"
@@ -1748,34 +1793,16 @@
 
   <!-- MOBILE MENU -->
 
-  <div
-    class="mobile-nav"
-    id="mobileNav"
-  >
-
-    <a href="#compositions">
-      Compositions
-    </a>
-
-    <a href="#gallery">
-      Gallery
-    </a>
-
-    <a href="#darkroom">
-      Darkroom
-    </a>
-      <a href="#video-darkroom">Video Darkroom</a>
-
-    <a href="#journal">
-      Journal
-    </a>
-
-    <a href="#about">
-      About
-    </a>
-
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#presets">Presets</a>
+    <a href="#darkroom">Photo editor</a>
+    <a href="#video-darkroom">Video editor</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#journal">Journal</a>
+    <a href="#community">Community</a>
+    <a href="#about">About</a>
+    <button class="mobile-account" id="mobileAccountBtn" type="button">Local account</button>
   </div>
-
 
   <main>
 
@@ -1794,11 +1821,11 @@
         <div class="hero-kicker">
 
           <span>
-            Independent photography platform
+            Independent monochrome platform
           </span>
 
           <span>
-            Berlin / 2026
+            Based in Berlin / 2026
           </span>
 
         </div>
@@ -1821,22 +1848,22 @@
 
           <div class="hero-intro">
 
-            Photography, composition and a browser darkroom
-            built around contrast, texture and the space
-            between light and shadow.
+            Street, portrait and brutalist studies —
+            with a private browser darkroom for photographs
+            and 4K video.
 
           </div>
 
 
           <div class="hero-index">
 
-            Collections / 01—04
+            Selected studies / ongoing
             <br>
 
             Journal / ongoing
             <br>
 
-            Darkroom / browser based
+            Photo + 4K video / browser based
 
           </div>
 
@@ -1848,13 +1875,13 @@
       <figure class="hero-image">
 
         <img
-          src="https://picsum.photos/seed/deepshade-hero/1200/1600"
-          alt="Editorial black and white photography"
+          src="https://images.unsplash.com/photo-1746725262192-ab7dd592fd1b?auto=format&fit=max&fm=jpg&q=95&w=5120"
+          alt="Black and white street photography"
         >
 
         <figcaption class="hero-label">
 
-          Study 01 — Untitled
+          Study 01 — Street
 
         </figcaption>
 
@@ -1878,10 +1905,10 @@
 
       <h2>
 
-        Images do not need to shout.
-        Sometimes the most important
-        part of a photograph is what
-        disappears into shadow.
+        The city is loud enough.
+        deep-shade looks for the quieter frame —
+        concrete, faces, movement and the space
+        between light and shadow.
 
       </h2>
 
@@ -1892,154 +1919,18 @@
          COMPOSITIONS
     ======================================= -->
 
-    <section
-      class="section"
-      id="compositions"
-    >
-
+    <section class="section" id="compositions">
       <header class="section-head">
-
-        <div class="eyebrow">
-
-          Selected compositions
-
-        </div>
-
-
-        <h2>
-
-          Different ways
-          to hold a frame.
-
-        </h2>
-
-
-        <p>
-
-          Editorial arrangements for portrait,
-          street, architecture and still life.
-
-          Each composition is built around
-          balance, negative space and deliberate
-          interruption.
-
-        </p>
-
+        <div class="eyebrow">Selected studies</div>
+        <h2>Street. Portrait. Concrete.</h2>
+        <p>Four ways of reading a frame: people in motion, quiet portraits, hard geometry and brutalist mass. Every image stays monochrome by default.</p>
       </header>
-
-
       <div class="composition-grid">
-
-
-        <figure class="comp comp-a">
-
-          <div class="photo">
-
-            <img
-              src="https://picsum.photos/seed/deepshade-comp-a/1100/1500"
-              alt="Portrait composition"
-            >
-
-          </div>
-
-
-          <figcaption>
-
-            <span>
-              01 / Portrait
-            </span>
-
-            <span>
-              Vertical tension
-            </span>
-
-          </figcaption>
-
-        </figure>
-
-
-        <figure class="comp comp-b">
-
-          <div class="photo">
-
-            <img
-              src="https://picsum.photos/seed/deepshade-comp-b/1500/1000"
-              alt="Environmental composition"
-            >
-
-          </div>
-
-
-          <figcaption>
-
-            <span>
-              02 / Environment
-            </span>
-
-            <span>
-              Open frame
-            </span>
-
-          </figcaption>
-
-        </figure>
-
-
-        <figure class="comp comp-c">
-
-          <div class="photo">
-
-            <img
-              src="https://picsum.photos/seed/deepshade-comp-c/1000/1250"
-              alt="Detail composition"
-            >
-
-          </div>
-
-
-          <figcaption>
-
-            <span>
-              03 / Detail
-            </span>
-
-            <span>
-              Close crop
-            </span>
-
-          </figcaption>
-
-        </figure>
-
-
-        <figure class="comp comp-d">
-
-          <div class="photo">
-
-            <img
-              src="https://picsum.photos/seed/deepshade-comp-d/1300/1000"
-              alt="Street composition"
-            >
-
-          </div>
-
-
-          <figcaption>
-
-            <span>
-              04 / Street
-            </span>
-
-            <span>
-              Off centre
-            </span>
-
-          </figcaption>
-
-        </figure>
-
+        <figure class="comp comp-a"><div class="photo"><img src="https://images.unsplash.com/photo-1771749141621-cf9a4d91c14e?auto=format&fit=max&fm=jpg&q=95&w=5120" class="portrait-tight" alt="Close black and white portrait study" loading="lazy"></div><figcaption><span>Study 02</span><span>Close portrait</span></figcaption></figure>
+        <figure class="comp comp-b"><div class="photo"><img src="https://images.unsplash.com/photo-1601411314620-b58ef01332a0?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Rainy night street study" loading="lazy"></div><figcaption><span>Study 03</span><span>Rain / Night</span></figcaption></figure>
+        <figure class="comp comp-c"><div class="photo"><img src="https://images.unsplash.com/photo-1551686496-a8887d245d7b?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Brutalist architecture study" loading="lazy"></div><figcaption><span>Study 04</span><span>Brutalism</span></figcaption></figure>
+        <figure class="comp comp-d"><div class="photo"><img src="https://images.unsplash.com/photo-1728837654080-fc442dd8659f?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Street photography study" loading="lazy"></div><figcaption><span>Study 05</span><span>Street</span></figcaption></figure>
       </div>
-
     </section>
 
 
@@ -2071,504 +1962,101 @@
          GALLERY
     ======================================= -->
 
-    <section
-      class="section"
-      id="gallery"
-    >
-
+    <section class="section" id="gallery">
       <header class="section-head">
-
-        <div class="eyebrow">
-
-          Gallery / studies
-
-        </div>
-
-
-        <h2>
-
-          Example images.
-
-        </h2>
-
-
-        <p>
-
-          A loose archive of visual
-          studies.
-
-          Hover reveals the original
-          colour; the default presentation
-          remains monochrome.
-
-        </p>
-
+        <div class="eyebrow">Gallery / studies</div>
+        <h2>Studies in shade.</h2>
+        <p>Street, portrait and brutalist photography. Images are requested in 4K width where the source supports it and presented in monochrome.</p>
       </header>
-
-
       <div class="gallery">
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g1/1500/1000"
-            alt="Gallery example 1"
-          >
-
-          <span class="gallery-num">
-            001
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g2/900/1200"
-            alt="Gallery example 2"
-          >
-
-          <span class="gallery-num">
-            002
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g3/900/1200"
-            alt="Gallery example 3"
-          >
-
-          <span class="gallery-num">
-            003
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g4/900/1200"
-            alt="Gallery example 4"
-          >
-
-          <span class="gallery-num">
-            004
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g5/1500/850"
-            alt="Gallery example 5"
-          >
-
-          <span class="gallery-num">
-            005
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g6/900/1200"
-            alt="Gallery example 6"
-          >
-
-          <span class="gallery-num">
-            006
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g7/1500/1000"
-            alt="Gallery example 7"
-          >
-
-          <span class="gallery-num">
-            007
-          </span>
-
-        </figure>
-
-
-        <figure class="gallery-item">
-
-          <img
-            src="https://picsum.photos/seed/ds-g8/1500/1000"
-            alt="Gallery example 8"
-          >
-
-          <span class="gallery-num">
-            008
-          </span>
-
-        </figure>
-
+        <figure class="gallery-item"><img src="https://images.unsplash.com/photo-1786007214435-aa7e4f5b3beb?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Transit street study 06" loading="lazy"><figcaption class="gallery-num">Study 06</figcaption><span class="gallery-location">Street / Transit</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1624510666979-0f5f1b8777d7?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Monochrome portrait study 07" loading="lazy"><figcaption class="gallery-num">Study 07</figcaption><span class="gallery-location">Portrait / Quiet frame</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1783403695471-ed547b1a967a?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Concrete brutalist study 08" loading="lazy"><figcaption class="gallery-num">Study 08</figcaption><span class="gallery-location">Brutalism / Concrete</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1783436399694-29951c506277?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Night street study 09" loading="lazy"><figcaption class="gallery-num">Study 09</figcaption><span class="gallery-location">Night / Street</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1603216808336-2d38e6dc26c5?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Monochrome street study 10" loading="lazy"><figcaption class="gallery-num">Study 10</figcaption><span class="gallery-location">Street / Motion</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1754648909591-1834fd577a4a?auto=format&fit=max&fm=jpg&q=95&w=5120" class="portrait-tight" alt="Close black and white portrait study 11" loading="lazy"><figcaption class="gallery-num">Study 11</figcaption><span class="gallery-location">Portrait / Close study</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1651924492505-b36141774442?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Monochrome brutalist study 12" loading="lazy"><figcaption class="gallery-num">Study 12</figcaption><span class="gallery-location">Brutalism / Geometry</span></figure><figure class="gallery-item"><img src="https://images.unsplash.com/photo-1501883824620-a2c97e2e319c?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Monochrome street study 13" loading="lazy"><figcaption class="gallery-num">Study 13</figcaption><span class="gallery-location">Street / Contrast</span></figure>
       </div>
-
     </section>
 
+
+
+    <section class="section preset-library" id="presets">
+      <header class="section-head">
+        <div class="eyebrow">Monochrome / film library</div>
+        <h2>Six ways into black.</h2>
+        <p>Film-inspired starting points for both editors. Apply a look, then shape exposure, contrast, highlights, shadows, grain and vignette by hand.</p>
+      </header>
+      <div class="preset-showcase">
+        <button data-apply-photo-preset="japaneseNoir"><img src="https://images.unsplash.com/photo-1633858051938-38b402e34465?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Japanese Noir night preset"><span>Japanese Noir</span><small>Hard contrast / deep black</small></button>
+        <button data-apply-photo-preset="moriyama"><img src="https://images.unsplash.com/photo-1588017316648-4ae6335be76d?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Daido Moriyama inspired street preset"><span>Daido Moriyama</span><small>Grain / chaos / flash</small></button>
+        <button data-apply-photo-preset="triX"><img src="https://images.unsplash.com/photo-1662474804146-4eb3a4f7d0b7?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Kodak Tri-X street preset"><span>Kodak Tri-X</span><small>Classic documentary grain</small></button>
+        <button data-apply-photo-preset="hp5"><img src="https://images.unsplash.com/photo-1696058884869-4ef2e8380dfe?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Ilford HP5 preset"><span>Ilford HP5</span><small>Soft shoulder / open shadow</small></button>
+        <button data-apply-photo-preset="filmNoir"><img src="https://images.unsplash.com/photo-1785838627670-68a4e99e2bcf?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Film Noir preset"><span>Film Noir</span><small>Low key / cinematic</small></button>
+        <button data-apply-photo-preset="brutalist"><img src="https://images.unsplash.com/photo-1551686414-7916b8390f57?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Brutalist concrete preset"><span>Brutalist</span><small>Concrete / geometry / cold black</small></button>
+      </div>
+    </section>
 
     <!-- ======================================
          DARKROOM
     ======================================= -->
 
-    <section
-      class="darkroom"
-      id="darkroom"
-    >
-
+    <section class="darkroom" id="darkroom">
       <header class="section-head">
-
-        <div class="eyebrow">
-
-          Browser darkroom
-
-        </div>
-
-
-        <h2>
-
-          Edit in deep-shade.
-
-        </h2>
-
-
-        <p>
-
-          Your photograph is processed
-          locally in the browser.
-
-          Upload an image, shape the tonal
-          range, use a preset and export
-          the result.
-
-        </p>
-
+        <div class="eyebrow">Photo editor / local browser darkroom</div>
+        <h2>Shape the still image.</h2>
+        <p>Your photograph stays on this device. Drop a high-resolution file, compare before and after, apply a film look, save your own preset and export in multiple resolutions.</p>
       </header>
-
-
-      <div class="editor-shell">
-
-
+      <div class="editor-shell photo-editor-shell">
         <div class="editor-top">
-
-
-          <div>
-
-            <button
-              class="tool-btn"
-              id="editorOpen"
-            >
-              Open image
-            </button>
-
-          </div>
-
-
-          <div class="center">
-
-            deep-shade / darkroom
-
-          </div>
-
-
-          <div class="right">
-
-            <button
-              class="tool-btn"
-              id="undoBtn"
-            >
-              Undo
-            </button>
-
-            <button
-              class="tool-btn"
-              id="redoBtn"
-            >
-              Redo
-            </button>
-
-            <button
-              class="tool-btn"
-              id="exportBtn"
-            >
-              Export ↗
-            </button>
-
-          </div>
-
+          <div class="editor-top-actions"><button class="tool-btn" id="editorOpen">Open image</button><button class="tool-btn" id="savePhotoPreset" type="button">Save look</button></div>
+          <div class="center">deep-shade / photo darkroom</div>
+          <div class="right"><button class="tool-btn" id="undoBtn">Undo</button><button class="tool-btn" id="redoBtn">Redo</button><button class="tool-btn" id="exportBtn">Export ↗</button></div>
         </div>
-
-
-        <div
-          class="editor-main"
-          id="editorMain"
-        >
-
-
-          <div
-            class="editor-empty"
-            id="editorEmpty"
-          >
-
-            <div>
-
-              <strong>
-
-                Drop your photograph
-
-              </strong>
-
-              <span>
-
-                or click to choose an image
-
-              </span>
-
-            </div>
-
+        <div class="editor-main" id="editorMain">
+          <div class="editor-empty" id="editorEmpty"><div><strong>Drop your photograph</strong><span>or click to choose an image · local processing</span></div></div>
+          <div class="photo-compare" id="photoCompare" hidden>
+            <canvas id="editorCanvas"></canvas>
+            <div class="before-layer" id="photoBeforeLayer"><canvas id="beforeCanvas"></canvas><span>Before</span></div>
+            <span class="after-label">After</span>
+            <div class="compare-rule" id="photoCompareRule"></div>
           </div>
-
-
-          <canvas id="editorCanvas"></canvas>
-
-
-          <div class="drag-label">
-
-            drop image
-
-          </div>
-
+          <div class="drag-label">drop image</div>
         </div>
-
-
+        <div class="compare-toolbar" id="photoCompareToolbar" hidden><label>Before / After <input id="photoCompareRange" type="range" min="0" max="100" value="50"></label><span>Drag the split to compare.</span></div>
         <div class="editor-controls">
-
-
-          <div class="control">
-
-            <label>
-
-              <span>
-                Exposure
-              </span>
-
-              <span id="exposureValue">
-                0
-              </span>
-
-            </label>
-
-            <input
-              id="exposure"
-              type="range"
-              min="-100"
-              max="100"
-              value="0"
-            >
-
-          </div>
-
-
-          <div class="control">
-
-            <label>
-
-              <span>
-                Contrast
-              </span>
-
-              <span id="contrastValue">
-                0
-              </span>
-
-            </label>
-
-            <input
-              id="contrast"
-              type="range"
-              min="-100"
-              max="100"
-              value="0"
-            >
-
-          </div>
-
-
-          <div class="control">
-
-            <label>
-
-              <span>
-                Highlights
-              </span>
-
-              <span id="highlightsValue">
-                0
-              </span>
-
-            </label>
-
-            <input
-              id="highlights"
-              type="range"
-              min="-100"
-              max="100"
-              value="0"
-            >
-
-          </div>
-
-
-          <div class="control">
-
-            <label>
-
-              <span>
-                Shadows
-              </span>
-
-              <span id="shadowsValue">
-                0
-              </span>
-
-            </label>
-
-            <input
-              id="shadows"
-              type="range"
-              min="-100"
-              max="100"
-              value="0"
-            >
-
-          </div>
-
-
-          <div class="control">
-
-            <label>
-
-              <span>
-                Saturation
-              </span>
-
-              <span id="saturationValue">
-                0
-              </span>
-
-            </label>
-
-            <input
-              id="saturation"
-              type="range"
-              min="-100"
-              max="100"
-              value="0"
-            >
-
-          </div>
-
-
+          <div class="control"><label><span>Exposure</span><span id="exposureValue">0</span></label><input id="exposure" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><label><span>Contrast</span><span id="contrastValue">0</span></label><input id="contrast" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><label><span>Highlights</span><span id="highlightsValue">0</span></label><input id="highlights" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><label><span>Shadows</span><span id="shadowsValue">0</span></label><input id="shadows" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><label><span>Saturation</span><span id="saturationValue">0</span></label><input id="saturation" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><label><span>Grain</span><span id="grainValue">0</span></label><input id="grain" type="range" min="0" max="100" value="0"></div>
+          <div class="control"><label><span>Vignette</span><span id="vignetteValue">0</span></label><input id="vignette" type="range" min="0" max="100" value="0"></div>
           <div class="control preset-control">
-
-
-            <div class="bw-row">
-
-              <span>
-                Black / White
-              </span>
-
-              <div
-                class="switch"
-                id="bwSwitch"
-                role="switch"
-                tabindex="0"
-              ></div>
-
+            <div class="bw-row"><span>Black / White</span><div class="switch" id="bwSwitch" role="switch" tabindex="0"></div></div>
+            <div class="preset-row film-preset-row">
+              <button class="preset" data-preset="japaneseNoir">Japanese Noir</button><button class="preset" data-preset="moriyama">Moriyama</button><button class="preset" data-preset="triX">Tri-X</button><button class="preset" data-preset="hp5">HP5</button><button class="preset" data-preset="filmNoir">Film Noir</button><button class="preset" data-preset="brutalist">Brutalist</button>
             </div>
-
-
-            <div class="preset-row">
-
-              <button
-                class="preset"
-                data-preset="clean"
-              >
-                Clean
-              </button>
-
-              <button
-                class="preset"
-                data-preset="noir"
-              >
-                Noir
-              </button>
-
-              <button
-                class="preset"
-                data-preset="soft"
-              >
-                Soft
-              </button>
-
-              <button
-                class="preset"
-                data-preset="street"
-              >
-                Street
-              </button>
-
-            </div>
-
+            <div class="custom-presets" id="customPhotoPresets"></div>
           </div>
-
         </div>
-
+        <div class="photo-export-options">
+          <label>Resolution<select id="photoExportSize"><option value="source">Original / working size</option><option value="3840">4K · long edge 3840</option><option value="2560">2K · long edge 2560</option><option value="1920">Full HD · long edge 1920</option></select></label>
+          <label>Format<select id="photoExportFormat"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></label>
+          <span id="photoExportMeta">Local export · no upload</span>
+        </div>
       </div>
-
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        hidden
-      >
-
+      <input id="fileInput" type="file" accept="image/*" hidden>
     </section>
 
-
-    <section class="darkroom" id="video-darkroom" aria-labelledby="vdHeading">
+    <section class="darkroom video-section" id="video-darkroom" aria-labelledby="vdHeading">
       <header class="section-head">
-        <div class="eyebrow">Motion / local browser darkroom</div>
-        <h2 id="vdHeading">Moving through shade.</h2>
-        <p>Dein Film. Dein Licht. Monochrome Looks für lokale Videos – auch 4K-Quellen, sofern dein Browser sie dekodiert. Deine Videodatei wird nicht hochgeladen.</p>
+        <div class="eyebrow">Video editor / 4K local browser darkroom</div>
+        <h2 id="vdHeading">Motion in monochrome.</h2>
+        <p>4K video stays on this device. Drop a clip, edit it in monochrome, compare the original, use the same film looks as the photo editor and export in the formats your browser supports.</p>
       </header>
       <div class="editor-shell">
-        <div class="vd-bar"><span class="vd-brand">deep-shade / video darkroom</span><button id="vdOpen" type="button">Video öffnen ↗</button><button id="vdReset" type="button" disabled>Look zurücksetzen</button></div>
+        <div class="vd-bar"><span class="vd-brand">deep-shade / 4K video darkroom</span><button id="vdOpen" type="button">Open video ↗</button><button id="vdReset" type="button" disabled>Reset look</button><button id="saveVideoPreset" type="button" disabled>Save look</button></div>
         <input id="vdFile" type="file" accept="video/*,.mkv,.mov,.mp4,.m4v,.webm" hidden>
         <video id="vdVideo" playsinline preload="metadata" hidden></video>
         <div class="vd-layout">
           <div>
-            <div class="vd-stage" id="vdDrop"><div class="vd-empty" id="vdEmpty"><strong>Motion in monochrome.</strong><p>Video hier ablegen oder „Video öffnen“ wählen.<br>Lokale Verarbeitung · keine Datei-Uploads</p></div><canvas id="vdCanvas" width="960" height="540" aria-label="Bearbeitete monochrome Videovorschau" hidden></canvas></div>
-            <div class="vd-transport"><button id="vdPlay" type="button" disabled>Abspielen</button><input id="vdTimeline" type="range" min="0" max="0" step="0.01" value="0" aria-label="Videoposition" disabled><span id="vdTime">00:00 / 00:00</span></div>
+            <div class="vd-stage" id="vdDrop"><div class="vd-empty" id="vdEmpty"><strong>Drop 4K motion.</strong><p>Drop a video here or choose “Open video”.<br>Local processing · no file upload</p></div><div class="video-compare" id="videoCompare" hidden><canvas id="vdCanvas" width="960" height="540" aria-label="Edited monochrome video preview"></canvas><div class="vd-before-layer" id="vdBeforeLayer"><canvas id="vdBeforeCanvas" width="960" height="540"></canvas><span>Before</span></div><span class="vd-after-label">After</span><div class="vd-compare-rule" id="vdCompareRule"></div></div></div>
+            <div class="vd-transport"><button id="vdPlay" type="button" disabled>Play</button><input id="vdTimeline" type="range" min="0" max="0" step="0.01" value="0" aria-label="Video timeline" disabled><span id="vdTime">00:00 / 00:00</span></div><div class="vd-compare-toolbar" id="vdCompareToolbar" hidden><label>Before / After <input id="vdCompareRange" type="range" min="0" max="100" value="50"></label><span>Preview only — export stays clean.</span></div>
             <p class="vd-meta" id="vdMeta">Noch kein Video geöffnet.</p>
           </div>
           <div class="vd-panel"><fieldset id="vdAdjust" disabled><legend>Monochrome / tonal range</legend>
@@ -2579,7 +2067,7 @@
 <label class="vd-control" for="vdblacks">Blacks<output id="vdblacksValue" for="vdblacks">0</output><input id="vdblacks" type="range" min="-100" max="100" step="1" value="0"></label>
 <label class="vd-control" for="vdgrain">Film Grain<output id="vdgrainValue" for="vdgrain">0</output><input id="vdgrain" type="range" min="0" max="100" step="1" value="0"></label>
 <label class="vd-control" for="vdvignette">Vignette<output id="vdvignetteValue" for="vdvignette">0</output><input id="vdvignette" type="range" min="0" max="100" step="1" value="0"></label>
-            <div class="vd-presets" id="vdPresets" aria-label="Film-Presets"></div>
+            <div class="vd-presets" id="vdPresets" aria-label="Film presets"></div><div class="custom-presets" id="customVideoPresets"></div>
           </fieldset></div>
         </div>
         <div class="vd-export">
@@ -2605,187 +2093,34 @@
          JOURNAL
     ======================================= -->
 
-    <section
-      class="section"
-      id="journal"
-    >
-
-      <header class="section-head">
-
-        <div class="eyebrow">
-
-          Journal / blog
-
-        </div>
-
-
-        <h2>
-
-          Notes on seeing.
-
-        </h2>
-
-
-        <p>
-
-          Short essays about
-          black-and-white photography,
-          framing, visual rhythm and
-          building a personal
-          photographic language.
-
-        </p>
-
-      </header>
-
-
+    <section class="section" id="journal">
+      <header class="section-head"><div class="eyebrow">Journal / notes</div><h2>Notes on seeing.</h2><p>Short essays about monochrome street work, portrait rhythm, brutalist geometry and building a personal visual language.</p></header>
       <div class="journal">
-
-
-        <article class="feature-post">
-
-
-          <div class="feature-image">
-
-            <img
-              src="https://picsum.photos/seed/ds-blog-main/1500/950"
-              alt="Blog feature image"
-            >
-
-          </div>
-
-
-          <div class="post-meta">
-
-            16 Sep 2026 · Composition · 7 min
-
-          </div>
-
-
-          <h3>
-
-            Why negative space makes
-            an image feel louder.
-
-          </h3>
-
-        </article>
-
-
+        <article class="feature-post"><div class="feature-image"><img src="https://images.unsplash.com/photo-1614788708556-d63ae22a5ac4?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Street journal study" loading="lazy"></div><div class="study-under">Study 14 · Street</div><div class="post-meta">18 Sep 2026 · 7 min</div><h3>Why the city becomes quieter in black and white.</h3></article>
         <div class="post-list">
-
-
-          <article class="post-small">
-
-
-            <div class="thumb">
-
-              <img
-                src="https://picsum.photos/seed/ds-blog-1/500/500"
-                alt="Blog image"
-              >
-
-            </div>
-
-
-            <div>
-
-              <div class="post-meta">
-
-                Black & White · 5 min
-
-              </div>
-
-
-              <h4>
-
-                Building contrast without
-                losing the quiet parts.
-
-              </h4>
-
-            </div>
-
-          </article>
-
-
-          <article class="post-small">
-
-
-            <div class="thumb">
-
-              <img
-                src="https://picsum.photos/seed/ds-blog-2/500/500"
-                alt="Blog image"
-              >
-
-            </div>
-
-
-            <div>
-
-              <div class="post-meta">
-
-                Street · 4 min
-
-              </div>
-
-
-              <h4>
-
-                Waiting for geometry
-                instead of chasing moments.
-
-              </h4>
-
-            </div>
-
-          </article>
-
-
-          <article class="post-small">
-
-
-            <div class="thumb">
-
-              <img
-                src="https://picsum.photos/seed/ds-blog-3/500/500"
-                alt="Blog image"
-              >
-
-            </div>
-
-
-            <div>
-
-              <div class="post-meta">
-
-                Process · 6 min
-
-              </div>
-
-
-              <h4>
-
-                A simple tonal workflow
-                for deep monochrome files.
-
-              </h4>
-
-            </div>
-
-          </article>
-
+          <article class="post-small"><div><div class="thumb"><img src="https://images.unsplash.com/photo-1617664837373-f107dd7be738?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Brutalist journal study" loading="lazy"></div><div class="study-under">Study 15</div></div><div><div class="post-meta">Brutalism · 5 min</div><h4>Concrete, repetition and the discipline of the frame.</h4></div></article>
+          <article class="post-small"><div><div class="thumb"><img src="https://images.unsplash.com/photo-1620825908881-d38b5f687cca?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Portrait journal study" loading="lazy"></div><div class="study-under">Study 16</div></div><div><div class="post-meta">Portrait · 4 min</div><h4>Keeping a portrait quiet while the street keeps moving.</h4></div></article>
+          <article class="post-small"><div><div class="thumb"><img src="https://images.unsplash.com/photo-1725444882875-f69656d64bc8?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Night journal study" loading="lazy"></div><div class="study-under">Study 17</div></div><div><div class="post-meta">Night · 6 min</div><h4>Protecting the blacks without losing the city lights.</h4></div></article>
         </div>
-
       </div>
-
     </section>
 
 
     <!-- ======================================
          ABOUT
     ======================================= -->
+
+
+    <section class="section community-section" id="community">
+      <header class="section-head"><div class="eyebrow">Community / studies</div><h2>Made in monochrome.</h2><p>A lightweight community wall that still works on static hosting. Curated studies are visible to everyone; your own local studies can be added on this device without uploading them.</p></header>
+      <div class="community-grid" id="communityGrid">
+        <figure><img src="https://images.unsplash.com/photo-1755896487295-e23730d124a6?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Community brutalist study" loading="lazy"><figcaption><span>Study 18</span><span>Brutalism</span></figcaption></figure>
+        <figure><img src="https://images.unsplash.com/photo-1771343953591-495a211ecbc1?auto=format&fit=max&fm=jpg&q=95&w=5120" alt="Community street study" loading="lazy"><figcaption><span>Study 19</span><span>Street</span></figcaption></figure>
+        <figure><img src="https://images.unsplash.com/photo-1780247043780-88b08c3259a6?auto=format&fit=max&fm=jpg&q=95&w=5120" class="portrait-tight" alt="Close monochrome community portrait study" loading="lazy"><figcaption><span>Study 20</span><span>Portrait</span></figcaption></figure>
+      </div>
+      <div class="community-actions"><button class="line-button" id="communityAdd" type="button">Add a local study ↗</button><span id="communityNote">Stored only in this browser. Public sharing needs a backend or external service.</span></div>
+      <input id="communityFile" type="file" accept="image/*" hidden>
+    </section>
 
     <section
       class="about"
@@ -2805,19 +2140,15 @@
         <p>
 
           A place for photographs,
-          visual experiments and the
-          process behind them.
+          moving images and the process
+          behind them.
 
         </p>
 
 
         <div class="about-small">
 
-          deep-shade combines a minimal
-          photography portfolio with
-          composition studies, editorial
-          notes and a lightweight browser
-          darkroom.
+          deep-shade combines street, portrait and brutalist studies with editorial notes and a lightweight photo and 4K video darkroom that runs directly in the browser.
 
           The visual system stays
           deliberately restrained:
@@ -2845,7 +2176,7 @@
 
         <div class="eyebrow">
 
-          New work / occasional notes
+          Occasional notes
 
         </div>
 
@@ -2878,6 +2209,7 @@
             </button>
 
           </form>
+          <p class="newsletter-status" id="newsletterStatus">Stored locally for this static prototype. Connect an email provider later for real delivery.</p>
 
         </div>
 
@@ -2887,6 +2219,19 @@
 
   </main>
 
+
+
+  <dialog class="account-dialog" id="accountDialog">
+    <form method="dialog" class="account-card" id="accountForm">
+      <div class="account-head"><span class="eyebrow">Local account / no server</span><button value="cancel" aria-label="Close">×</button></div>
+      <h2>Your deep-shade profile.</h2>
+      <p>This static version stores the profile only in your browser. No password is sent anywhere and nothing syncs between devices.</p>
+      <label>Name<input id="accountName" autocomplete="name" placeholder="Your name"></label>
+      <label>Email<input id="accountEmail" type="email" autocomplete="email" placeholder="name@example.com"></label>
+      <div class="account-actions"><button class="line-button" id="accountSave" value="default">Save locally</button><button class="line-button subtle" id="accountLogout" type="button">Clear local profile</button></div>
+      <p class="account-status" id="accountStatus"></p>
+    </form>
+  </dialog>
 
   <!-- ======================================
        FOOTER
@@ -2902,12 +2247,13 @@
 
     <span>
 
-      Photography /
-      compositions /
-      journal /
-      darkroom
+      photo + video /
+      presets /
+      journal
 
     </span>
+
+    <span>Sample imagery / Unsplash · 4K requests</span>
 
   </footer>
 
@@ -3027,6 +2373,10 @@
       );
 
 
+    const beforeCanvas = document.getElementById("beforeCanvas");
+    const beforeCtx = beforeCanvas ? beforeCanvas.getContext("2d", { willReadFrequently: true }) : null;
+
+
     const editorMain =
       document.getElementById(
         "editorMain"
@@ -3049,7 +2399,11 @@
 
       "shadows",
 
-      "saturation"
+      "saturation",
+
+      "grain",
+
+      "vignette"
 
     ];
 
@@ -3065,6 +2419,10 @@
       shadows: 0,
 
       saturation: 0,
+
+      grain: 0,
+
+      vignette: 0,
 
       bw: false
 
@@ -3444,7 +2802,7 @@
 
 
               const maxEdge =
-                2400;
+                4096;
 
 
               const scale =
@@ -3555,6 +2913,11 @@
               canvas.style.display =
                 "block";
 
+              const photoCompare = document.getElementById("photoCompare");
+              const photoCompareToolbar = document.getElementById("photoCompareToolbar");
+              if (photoCompare) photoCompare.hidden = false;
+              if (photoCompareToolbar) photoCompareToolbar.hidden = false;
+
 
               history =
                 [];
@@ -3659,6 +3022,17 @@
 
           const pixels =
             output.data;
+
+          if (beforeCanvas && beforeCtx) {
+            beforeCanvas.width = originalImageData.width;
+            beforeCanvas.height = originalImageData.height;
+            beforeCtx.putImageData(originalImageData, 0, 0);
+          }
+
+          const imageWidth = output.width;
+          const imageHeight = output.height;
+          const grainStrength = (state.grain || 0) / 100;
+          const vignetteStrength = (state.vignette || 0) / 100;
 
 
           const exposureFactor =
@@ -3934,6 +3308,17 @@
             }
 
 
+            const pixelIndex = i / 4;
+            const px = (pixelIndex % imageWidth) / Math.max(1, imageWidth - 1) * 2 - 1;
+            const py = Math.floor(pixelIndex / imageWidth) / Math.max(1, imageHeight - 1) * 2 - 1;
+            const edge = Math.min(1, Math.max(0, (Math.hypot(px, py) - 0.18) / 1.22));
+            const vignetteFactor = 1 - vignetteStrength * edge * edge * 0.72;
+            const stableNoise = (Math.sin(pixelIndex * 12.9898 + 78.233) * 43758.5453) % 1;
+            const noise = (stableNoise - Math.floor(stableNoise) - 0.5) * grainStrength * 46;
+            r = r * vignetteFactor + noise;
+            g = g * vignetteFactor + noise;
+            b = b * vignetteFactor + noise;
+
             pixels[i] =
               clamp(r);
 
@@ -4195,75 +3580,12 @@
     */
 
     const presets = {
-
-
-      clean: {
-
-        exposure: 5,
-
-        contrast: 8,
-
-        highlights: -5,
-
-        shadows: 5,
-
-        saturation: 0,
-
-        bw: false
-
-      },
-
-
-      noir: {
-
-        exposure: -8,
-
-        contrast: 44,
-
-        highlights: -25,
-
-        shadows: -18,
-
-        saturation: -100,
-
-        bw: true
-
-      },
-
-
-      soft: {
-
-        exposure: 8,
-
-        contrast: -18,
-
-        highlights: -16,
-
-        shadows: 18,
-
-        saturation: -8,
-
-        bw: false
-
-      },
-
-
-      street: {
-
-        exposure: -2,
-
-        contrast: 35,
-
-        highlights: -28,
-
-        shadows: -8,
-
-        saturation: -12,
-
-        bw: false
-
-      }
-
+      japaneseNoir: { exposure:-12, contrast:48, highlights:-28, shadows:-30, saturation:-100, grain:30, vignette:24, bw:true },
+      moriyama: { exposure:10, contrast:72, highlights:10, shadows:-42, saturation:-100, grain:72, vignette:22, bw:true },
+      triX: { exposure:0, contrast:30, highlights:-18, shadows:10, saturation:-100, grain:40, vignette:10, bw:true },
+      hp5: { exposure:5, contrast:18, highlights:-28, shadows:24, saturation:-100, grain:28, vignette:8, bw:true },
+      filmNoir: { exposure:-18, contrast:56, highlights:-18, shadows:-36, saturation:-100, grain:20, vignette:48, bw:true },
+      brutalist: { exposure:-8, contrast:40, highlights:-34, shadows:8, saturation:-100, grain:24, vignette:18, bw:true }
     };
 
 
@@ -4376,84 +3698,33 @@
     */
 
     function exportImage() {
-
-
-      if (
-        !originalImageData
-      ) {
-
-        chooseImage();
-
-        return;
-
-      }
-
-
-      canvas.toBlob(
-
-        blob => {
-
-
-          if (!blob)
-            return;
-
-
-          const url =
-            URL.createObjectURL(
-              blob
-            );
-
-
-          const link =
-            document.createElement(
-              "a"
-            );
-
-
-          link.href =
-            url;
-
-
-          link.download =
-
-            currentFileName
-
-            +
-
-            "-deep-shade.jpg";
-
-
-          document.body.appendChild(
-            link
-          );
-
-
-          link.click();
-
-
-          link.remove();
-
-
-          setTimeout(
-
-            () =>
-
-              URL.revokeObjectURL(
-                url
-              ),
-
-            1000
-
-          );
-
-        },
-
-        "image/jpeg",
-
-        0.95
-
-      );
-
+      if (!originalImageData) { chooseImage(); return; }
+      const sizeSelect = document.getElementById("photoExportSize");
+      const formatSelect = document.getElementById("photoExportFormat");
+      const requested = sizeSelect ? sizeSelect.value : "source";
+      const mime = formatSelect ? formatSelect.value : "image/jpeg";
+      const maxEdge = Math.max(canvas.width, canvas.height);
+      const targetEdge = requested === "source" ? maxEdge : Math.min(maxEdge, Number(requested));
+      const scale = targetEdge / maxEdge;
+      const exportCanvas = document.createElement("canvas");
+      exportCanvas.width = Math.max(1, Math.round(canvas.width * scale));
+      exportCanvas.height = Math.max(1, Math.round(canvas.height * scale));
+      const exportCtx = exportCanvas.getContext("2d");
+      exportCtx.imageSmoothingEnabled = true;
+      exportCtx.imageSmoothingQuality = "high";
+      exportCtx.drawImage(canvas, 0, 0, exportCanvas.width, exportCanvas.height);
+      const ext = mime === "image/png" ? "png" : mime === "image/webp" ? "webp" : "jpg";
+      exportCanvas.toBlob(blob => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = currentFileName + "-deep-shade-" + exportCanvas.width + "x" + exportCanvas.height + "." + ext;
+        document.body.appendChild(link); link.click(); link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        const meta = document.getElementById("photoExportMeta");
+        if (meta) meta.textContent = "Exported " + exportCanvas.width + " × " + exportCanvas.height + " · local";
+      }, mime, mime === "image/jpeg" || mime === "image/webp" ? 0.94 : undefined);
     }
 
 
@@ -4674,8 +3945,8 @@
   const defaults = {exposure:0, contrast:0, highlights:0, shadows:0, blacks:0, grain:0, vignette:0};
   const presets = {
     'Japanese Noir':[0,38,-20,-24,-20,18,25], 'Moriyama':[15,65,15,-35,-35,65,28],
-    'Tri-X 400':[0,28,-15,12,-12,35,12], 'Ilford HP5':[5,15,-25,22,-5,25,8],
-    'Film Noir':[-15,48,-12,-30,-28,16,45], 'Brutalist Berlin':[-5,35,-30,8,-20,22,18]
+    'Kodak Tri-X':[0,28,-15,12,-12,35,12], 'Ilford HP5':[5,15,-25,22,-5,25,8],
+    'Film Noir':[-15,48,-12,-30,-28,16,45], 'Brutalist':[-5,35,-30,8,-20,22,18]
   };
   let values={...defaults}, loaded=false, busy=false, sourceURL='', downloadURL='', fileName='video';
   let gl=null, ctx=null, program, texture, uniforms={}, animation=0, recorder=null, stream=null;
@@ -4741,7 +4012,7 @@
   $('Open').onclick=()=>$('File').click();$('File').onchange=()=>{openFile($('File').files[0]);$('File').value='';};
   $('Drop').addEventListener('dragover',e=>e.preventDefault());$('Drop').addEventListener('drop',e=>{e.preventDefault();openFile(e.dataTransfer.files[0]);});
   $('Play').onclick=async()=>{try{if(audioContext)await audioContext.resume();if(video.paused){if(video.ended)video.currentTime=0;await video.play();}else video.pause();}catch(e){status('Wiedergabe nicht möglich: '+e.message,true);}};
-  video.addEventListener('play',()=>{$('Play').textContent='Pause';cancelAnimationFrame(animation);tick();});video.addEventListener('pause',()=>{$('Play').textContent='Abspielen';cancelAnimationFrame(animation);});
+  video.addEventListener('play',()=>{$('Play').textContent='Pause';cancelAnimationFrame(animation);tick();});video.addEventListener('pause',()=>{$('Play').textContent='Play';cancelAnimationFrame(animation);});
   $('Timeline').oninput=()=>{video.currentTime=Number($('Timeline').value);};video.addEventListener('seeked',()=>{if(!busy)tick();});
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();video.pause();loaded=false;if(busy)cancel('GPU-Verbindung verloren. Bitte Seite neu laden.');controls();status('GPU-Verbindung verloren. Bitte Seite neu laden.',true);});
   const formats=[['video/webm;codecs=vp9','WebM / VP9'],['video/webm;codecs=vp8','WebM / VP8'],['video/mp4;codecs=avc1.42E01E','MP4 / H.264'],['video/mp4','MP4 / Browser-Codec'],['video/webm','WebM / Browser-Codec']];
@@ -4791,8 +4062,86 @@
   };
   window.addEventListener('pagehide',event=>{if(event.persisted){if(busy)cancel();return;}if(busy)cancel();if(sourceURL)URL.revokeObjectURL(sourceURL);if(downloadURL)URL.revokeObjectURL(downloadURL);if(stream)stream.getTracks().forEach(t=>t.stop());if(audioContext)audioContext.close();});
   try{setupRenderer();}catch(e){$('Open').disabled=true;$('File').disabled=true;status(e.message,true);}
+  window.deepShadeVideo = {
+    getState: () => ({...values}),
+    applyState: next => { values = {...defaults, ...next}; syncLook(); },
+    getPreset: name => presets[name] ? [...presets[name]] : null,
+    isLoaded: () => loaded
+  };
 })();
 
 </script>
+<script>
+(() => {
+  'use strict';
+  const qs=(s,r=document)=>r.querySelector(s), qsa=(s,r=document)=>[...r.querySelectorAll(s)];
+
+  // Before / after — photo
+  const photoRange=qs('#photoCompareRange'), photoLayer=qs('#photoBeforeLayer'), photoRule=qs('#photoCompareRule');
+  function setPhotoSplit(){ if(!photoRange)return; const v=Number(photoRange.value); if(photoLayer)photoLayer.style.clipPath=`inset(0 ${100-v}% 0 0)`; if(photoRule)photoRule.style.left=v+'%'; }
+  photoRange?.addEventListener('input',setPhotoSplit); setPhotoSplit();
+
+
+  // Apply showcase presets and scroll to editor.
+  qsa('[data-apply-photo-preset]').forEach(button=>button.addEventListener('click',()=>{
+    const name=button.dataset.applyPhotoPreset;
+    document.getElementById('darkroom')?.scrollIntoView({behavior:'smooth'});
+    if(!originalImageData){ setTimeout(()=>document.getElementById('editorOpen')?.click(),350); return; }
+    if(presets[name]){ Object.assign(state,presets[name]); updateUI(); renderImage(); pushHistory(); qsa('.preset').forEach(b=>b.classList.toggle('active',b.dataset.preset===name)); }
+  }));
+
+  // Local custom presets.
+  const PRESET_KEY='deepShadeCustomPresetsV1';
+  const loadCustom=()=>{try{return JSON.parse(localStorage.getItem(PRESET_KEY)||'[]')}catch{return[]}};
+  const saveCustom=list=>localStorage.setItem(PRESET_KEY,JSON.stringify(list.slice(-24)));
+  function renderCustomPresets(){
+    const list=loadCustom();
+    const photo=qs('#customPhotoPresets'), video=qs('#customVideoPresets'); if(photo)photo.innerHTML=''; if(video)video.innerHTML='';
+    list.forEach(item=>{
+      const b=document.createElement('button'); b.type='button'; b.textContent=item.name;
+      if(item.type==='photo'&&photo){ b.onclick=()=>{if(!originalImageData)return;Object.assign(state,item.values);updateUI();renderImage();pushHistory();}; photo.append(b); }
+      if(item.type==='video'&&video){ b.onclick=()=>window.deepShadeVideo?.applyState(item.values); video.append(b); }
+    });
+  }
+  qs('#savePhotoPreset')?.addEventListener('click',()=>{ if(!originalImageData)return; const name=prompt('Name your preset'); if(!name)return; const list=loadCustom(); list.push({type:'photo',name:name.trim().slice(0,30),values:cloneState()}); saveCustom(list); renderCustomPresets(); });
+  qs('#saveVideoPreset')?.addEventListener('click',()=>{ const api=window.deepShadeVideo; if(!api?.isLoaded())return; const name=prompt('Name your video preset'); if(!name)return; const list=loadCustom(); list.push({type:'video',name:name.trim().slice(0,30),values:api.getState()}); saveCustom(list); renderCustomPresets(); });
+  renderCustomPresets();
+
+  // Video before / after preview. The export canvas remains filtered-only.
+  const vdVideo=qs('#vdVideo'), vdBefore=qs('#vdBeforeCanvas'), vdLayer=qs('#vdBeforeLayer'), vdRange=qs('#vdCompareRange'), vdRule=qs('#vdCompareRule'), vdCompare=qs('#videoCompare'), vdToolbar=qs('#vdCompareToolbar');
+  const vdBctx=vdBefore?.getContext('2d'); let vdRAF=0;
+  function setVideoSplit(){ if(!vdRange)return; const v=Number(vdRange.value); if(vdLayer)vdLayer.style.clipPath=`inset(0 ${100-v}% 0 0)`; if(vdRule)vdRule.style.left=v+'%'; }
+  function paintBefore(){ cancelAnimationFrame(vdRAF); if(vdVideo&&vdBefore&&vdBctx&&vdVideo.readyState>=2){ const edited=qs('#vdCanvas'); vdBefore.width=edited?.width||960; vdBefore.height=edited?.height||540; try{vdBctx.drawImage(vdVideo,0,0,vdBefore.width,vdBefore.height)}catch{} } if(vdVideo&&!vdVideo.paused&&!vdVideo.ended)vdRAF=requestAnimationFrame(paintBefore); }
+  vdRange?.addEventListener('input',setVideoSplit); setVideoSplit();
+  ['loadeddata','seeked','timeupdate'].forEach(ev=>vdVideo?.addEventListener(ev,()=>{if(vdCompare)vdCompare.hidden=false;if(vdToolbar)vdToolbar.hidden=false;qs('#saveVideoPreset')?.removeAttribute('disabled');paintBefore();}));
+  vdVideo?.addEventListener('play',paintBefore); vdVideo?.addEventListener('pause',paintBefore);
+  const drop=qs('#vdDrop'); ['dragenter','dragover'].forEach(e=>drop?.addEventListener(e,()=>drop.classList.add('dragging'))); ['dragleave','drop'].forEach(e=>drop?.addEventListener(e,()=>drop.classList.remove('dragging')));
+
+  // Local account — intentionally no fake secure authentication on static hosting.
+  const ACCOUNT_KEY='deepShadeLocalProfileV1', dialog=qs('#accountDialog'), accountBtn=qs('#accountBtn'), mobileAccountBtn=qs('#mobileAccountBtn');
+  const getAccount=()=>{try{return JSON.parse(localStorage.getItem(ACCOUNT_KEY)||'null')}catch{return null}};
+  function updateAccountUI(){ const a=getAccount(); const label=a?.name? a.name : 'Local account'; if(accountBtn)accountBtn.textContent=label; if(mobileAccountBtn)mobileAccountBtn.textContent=label; if(qs('#accountName'))qs('#accountName').value=a?.name||''; if(qs('#accountEmail'))qs('#accountEmail').value=a?.email||''; }
+  function openAccount(){ updateAccountUI(); dialog?.showModal(); }
+  accountBtn?.addEventListener('click',openAccount); mobileAccountBtn?.addEventListener('click',openAccount);
+  qs('#accountForm')?.addEventListener('submit',e=>{ const name=qs('#accountName').value.trim(), email=qs('#accountEmail').value.trim(); localStorage.setItem(ACCOUNT_KEY,JSON.stringify({name,email,updated:new Date().toISOString()})); qs('#accountStatus').textContent='Saved on this device.'; updateAccountUI(); setTimeout(()=>dialog?.close(),450); });
+  qs('#accountLogout')?.addEventListener('click',()=>{localStorage.removeItem(ACCOUNT_KEY);updateAccountUI();qs('#accountStatus').textContent='Local profile cleared.';}); updateAccountUI();
+
+  // Newsletter: static/local prototype. No email is transmitted.
+  const form=qs('#subscribeForm');
+  if(form){ form.addEventListener('submit',()=>{ const input=form.querySelector('input'); if(input?.value)localStorage.setItem('deepShadeNewsletterLocal',input.value.trim()); const s=qs('#newsletterStatus'); if(s)s.textContent='Saved locally. No email was sent from this static site.'; },true); }
+
+  // Local community studies — compressed thumbnails to stay within browser storage.
+  const communityFile=qs('#communityFile'), communityGrid=qs('#communityGrid');
+  qs('#communityAdd')?.addEventListener('click',()=>communityFile?.click());
+  function localStudies(){try{return JSON.parse(localStorage.getItem('deepShadeLocalStudiesV1')||'[]')}catch{return[]}}
+  function renderLocalStudies(){ qsa('.local-study',communityGrid).forEach(x=>x.remove()); localStudies().forEach((src,i)=>{const f=document.createElement('figure');f.className='local-study';f.innerHTML=`<img alt="Local monochrome study" src="${src}"><figcaption><span>Local ${String(i+1).padStart(2,'0')}</span><span>This device</span></figcaption>`;communityGrid?.append(f);}); }
+  communityFile?.addEventListener('change',()=>{ const file=communityFile.files?.[0]; if(!file||!file.type.startsWith('image/'))return; const reader=new FileReader(); reader.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),max=900,s=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));c.width=Math.round(im.naturalWidth*s);c.height=Math.round(im.naturalHeight*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const arr=localStudies();arr.push(c.toDataURL('image/jpeg',.72));try{localStorage.setItem('deepShadeLocalStudiesV1',JSON.stringify(arr.slice(-6)));renderLocalStudies();}catch{alert('Browser storage is full. Remove older local studies or use a smaller image.')}};im.src=reader.result};reader.readAsDataURL(file);communityFile.value=''; }); renderLocalStudies();
+
+  // Editorial reveal animation.
+  const targets=qsa('.statement,.section-head,.comp,.gallery-item,.preset-showcase button,.feature-post,.post-small,.community-grid figure,.about-copy,.newsletter-inner');
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){ targets.forEach(el=>el.classList.add('reveal-ready')); const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -6%'});targets.forEach(el=>io.observe(el)); } else targets.forEach(el=>el.classList.add('revealed'));
+})();
+</script>
+
 </body>
 </html>
